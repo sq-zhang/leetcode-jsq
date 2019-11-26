@@ -66,16 +66,42 @@
  */
 class CBTInserter {
 
+    List<TreeNode> data;
+
     public CBTInserter(TreeNode root) {
-        
+        this.data = new ArrayList<>();
+        List<TreeNode> nodeList = new ArrayList<>();
+        nodeList.add(root);
+        while(!nodeList.isEmpty()) {
+            List<TreeNode> temp = new ArrayList<>();
+            for(TreeNode node : nodeList) {
+                this.data.add(node);
+                if(node.left != null) {
+                    temp.add(node.left);
+                }
+                if(node.right != null) {
+                    temp.add(node.right);
+                }
+            }
+            nodeList = temp;
+        }
     }
     
     public int insert(int v) {
-        
+        TreeNode parent = this.data.get((this.data.size() - 1) / 2);
+        if(parent.left != null) {
+            parent.right = new TreeNode(v);
+            this.data.add(parent.right);
+        } else {
+            parent.left = new TreeNode(v);
+            this.data.add(parent.left);
+        }
+
+        return parent.val;
     }
     
     public TreeNode get_root() {
-        
+        return this.data.get(0);
     }
 }
 

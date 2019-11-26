@@ -53,20 +53,33 @@
 // @lc code=start
 class SnapshotArray {
 
+    Map<Integer, Map<Integer, Integer>> snapMap;
+    int snapId;
+
     public SnapshotArray(int length) {
-        
+        this.snapMap = new HashMap<>(length);
+        for(int i = 0;i < length;i++) {
+            this.snapMap.put(i, new HashMap<>());
+        }
+        this.snapId = 0;
     }
     
     public void set(int index, int val) {
-        
+        snapMap.get(index).put(this.snapId, val);
     }
     
     public int snap() {
-        
+        return this.snapId++;
     }
     
     public int get(int index, int snap_id) {
-        
+        while(snap_id > -1) {
+            if (snapMap.get(index).containsKey(snap_id)) {
+                return snapMap.get(index).get(snap_id);
+            }
+            snap_id--;
+        }
+        return 0;
     }
 }
 
