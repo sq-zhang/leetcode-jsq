@@ -48,7 +48,23 @@
 // @lc code=start
 class Solution {
     public boolean wordBreak(String s, List<String> wordDict) {
-        
+        return wordBreak(s, new HashSet<>(wordDict), 0, new Boolean[s.length()]);
+    }
+
+    public boolean wordBreak(String s, Set<String> wordDict, int start, Boolean[] visited) {
+        if (start == s.length()) {
+            return true;
+        }
+        if (visited[start] != null) {
+            return visited[start];
+        }
+
+        for(int end = start + 1; end <= s.length(); end++) {
+            if (wordDict.contains(s.substring(start, end)) && wordBreak(s, wordDict, end, visited)) {
+                return visited[start] = true;
+            }
+        }
+        return visited[start] = false;
     }
 }
 // @lc code=end

@@ -57,12 +57,28 @@
 // @lc code=start
 class StockSpanner {
 
+    private List<Integer> prices;
+    private List<Integer> nexts;
+
     public StockSpanner() {
-        
+        prices = new ArrayList<>();
+        nexts = new ArrayList<>();
     }
     
     public int next(int price) {
+        int res = 1;
+        for(int i = prices.size() - 1; i>= 0;) {
+            if (prices.get(i) > price) {
+                break;
+            }
+            res += nexts.get(i);
+            i -= nexts.get(i);
+        }
+
+        prices.add(price);
+        nexts.add(res);
         
+        return res;
     }
 }
 

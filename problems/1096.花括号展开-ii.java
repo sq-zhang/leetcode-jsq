@@ -79,8 +79,66 @@
 // @lc code=start
 class Solution {
     public List<String> braceExpansionII(String expression) {
-        
+        boolean divFlag = false;
+        Stack<List<String>> stack = new Stack<>();
+
+        for(int i = 0;i < expression.length();i++) {
+            char c = expression.charAt(i);
+            
+            if (c == '{') {
+                int j = i, p = 1;
+                while (expression.charAt(j) != '}' || p != 0){
+                    j++;
+                    if (expression.charAt(j) == '{') 
+                        p++;
+                    if (expression.charAt(j) == '}')
+                        p--;
+                }
+                List<String> slist = braceExpansionII(expression.substring(i + 1, j));
+                if (divFlag){
+                   stack.push(merge(stack.pop(), slist));
+                } else {
+                   stack.push(slist);
+                } 
+                i = j;
+
+                divFlag = true;
+            } else if (Character.isLetter(c)) {
+                List<String> slist = new ArrayList<>();
+                slist.add("" + c);
+                if (divFlag){
+                   stack.push(merge(stack.pop(), slist));
+                } else { 
+                   stack.push(slist); 
+                }
+                divFlag = true;
+            }
+
+            if (c == ',' || i == expression.length() - 1) {
+                divFlag = false;
+            }
+        }
+        List<String> res = new ArrayList<>();
+        while(!stack.isEmpty()){
+            for (String l : stack.pop())
+                if (!res.contains(l)) {
+                    res.add(l);
+                }
+        }
+        Collections.sort(res);
+        return res;
     }
+
+    public List<String> merge(List<String> list1, List<String> list2){
+        List<String> res = new ArrayList<>();
+        for (String l1 : list1){
+            for (String l2 : list2){
+                res.add(l1+l2);
+            }
+        }
+        return res;
+    }
+
 }
 // @lc code=end
 
