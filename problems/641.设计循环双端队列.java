@@ -57,49 +57,87 @@
 // @lc code=start
 class MyCircularDeque {
 
+    private int size;
+    private int length;
+    private int nums[];
+    private int left;
+    private int right;
+
     /** Initialize your data structure here. Set the size of the deque to be k. */
     public MyCircularDeque(int k) {
-        
+        nums = new int[k];
+        size = k;
+        length = 0;
+        left = 0;
+        right = 0;
     }
     
     /** Adds an item at the front of Deque. Return true if the operation is successful. */
     public boolean insertFront(int value) {
-        
+        if (isFull()) {
+            return false;
+        }
+        left = (left - 1 + size) % size;
+        nums[left] = value;
+        length++;
+        return true;
     }
     
     /** Adds an item at the rear of Deque. Return true if the operation is successful. */
     public boolean insertLast(int value) {
-        
+        if (isFull()) {
+            return false;
+        }
+        nums[right] = value;
+        right = (right + 1 + size) % size;
+        length++;
+        return true;
     }
     
     /** Deletes an item from the front of Deque. Return true if the operation is successful. */
     public boolean deleteFront() {
-        
+        if (isEmpty()) {
+            return false;
+        }
+        left = (left + 1) % size;
+        length--;
+        return true;
     }
     
     /** Deletes an item from the rear of Deque. Return true if the operation is successful. */
     public boolean deleteLast() {
-        
+        if (isEmpty()) {
+            return false;
+        }
+        right = (right - 1 + size) % size;
+        length--;
+        return true;
     }
     
     /** Get the front item from the deque. */
     public int getFront() {
-        
+        if (isEmpty()) {
+            return -1;
+        }
+        return nums[left];
     }
     
     /** Get the last item from the deque. */
     public int getRear() {
-        
+        if(isEmpty()) {
+            return -1;
+        }
+        return nums[(right -1 + size) % size];
     }
     
     /** Checks whether the circular deque is empty or not. */
     public boolean isEmpty() {
-        
+        return length == 0;
     }
     
     /** Checks whether the circular deque is full or not. */
     public boolean isFull() {
-        
+        return length == size;
     }
 }
 
