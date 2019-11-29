@@ -38,16 +38,29 @@
 // @lc code=start
 class NumArray {
 
+    private int[] nums;
+    private int[] sums;
+
     public NumArray(int[] nums) {
-        
+        this.nums = nums;
+        this.sums = new int[nums.length];
+        int sum = 0;
+        for(int i = 0;i < nums.length;i++) {
+            sum += this.nums[i];
+            this.sums[i] = sum;
+        }
     }
     
     public void update(int i, int val) {
-        
+        int off = val - this.nums[i];
+        for(int j = i;j < this.nums.length;j++) {
+            this.sums[j] += off;
+        }
+        this.nums[i] = val;
     }
     
     public int sumRange(int i, int j) {
-        
+        return this.sums[j] - this.sums[i] + this.nums[i];
     }
 }
 

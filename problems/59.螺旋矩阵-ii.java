@@ -30,6 +30,40 @@
 // @lc code=start
 class Solution {
     public int[][] generateMatrix(int n) {
+        int[][] res = new int[n][n]; 
+        int i = 0, j = 0;
+        int l = 0, r = 0, u = 0, d = 0;
+        char direction = 'R';
+        for(int k = 1;k <= n * n;k++) {
+            res[i][j] = k;
+            if (direction == 'R') {
+                j++;
+                if (j == n - 1 - r) {
+                    direction = 'D';
+                    u++;
+                }
+            } else if (direction == 'L') {
+                j--;
+                if (j == l) {
+                    direction = 'U';
+                    d++;
+                }
+            } else if (direction == 'U') {
+                i--;
+                if (i == u) {
+                    direction = 'R';
+                    l++;
+                }
+            } else if (direction == 'D') {
+                i++;
+                if (i == n - 1 - d) {
+                    direction = 'L';
+                    r++;
+                }
+            }
+        }
+
+        return res;
         
     }
 }

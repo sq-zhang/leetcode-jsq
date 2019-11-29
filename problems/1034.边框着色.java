@@ -61,7 +61,50 @@
 // @lc code=start
 class Solution {
     public int[][] colorBorder(int[][] grid, int r0, int c0, int color) {
+        int target = grid[r0][c0];
+        if(color == target) {
+            return grid;
+        }
         
+        int m = grid.length, n = grid[0].length;
+        int[][] visited = new int[m][n];
+        int[][] res = new int[m][n];
+        for(int i = 0;i < m;i++) {
+            for(int j = 0;j < n;j++) {
+                res[i][j] = grid[i][j];
+            }
+        }
+
+        int[][] dir = {{-1, 1, 0, 0}, {0, 0, -1, 1}};
+        List<Integer> queue = new ArrayList<>();
+        queue.add(r0);
+        queue.add(c0);
+
+        while(!queue.isEmpty()) {
+            List<Integer> newQueue = new ArrayList<>();
+            for(int i = 0;i < queue.size();i += 2) {
+                int x = queue.get(i), y = queue.get(i + 1);
+                visited[x][y] = 1;
+                for(int k = 0;k < 4;k++) {
+                    int nx = x + dir[0][k], ny = y + dir[1][k];
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                        if (visited[nx][ny] == 0) {
+                            if (grid[nx][ny] == target) {
+                                visited[nx][ny] = 1;
+                                newQueue.add(nx);
+                                newQueue.add(ny);
+                            } else {
+                                res[x][y] = color;
+                            }
+                        }
+                    } else {
+                        res[x][y] = color;
+                    }
+                }
+            }
+            queue = newQueue;
+        }
+        return res;
     }
 }
 // @lc code=end

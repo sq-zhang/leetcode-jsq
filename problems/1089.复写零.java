@@ -49,7 +49,26 @@
 // @lc code=start
 class Solution {
     public void duplicateZeros(int[] arr) {
+        int[] offsets = new int[arr.length];
+        int[] arrcopy = new int[arr.length];
+        int i = 0;
+        for(int j = 0;j < arr.length;j++) {
+            arrcopy[j] = arr[j];
+            offsets[j] = i;
+            if (arr[j] == 0) {
+                i++;
+            }
+        }
         
+        if (i == 0) {
+            return;
+        }
+        for(int j = 0;j < arr.length;j++) {
+            arr[j] = 0;
+        }
+        for(int j = 0;j + offsets[j] < arr.length;j++) {
+            arr[j + offsets[j]] = arrcopy[j];
+        }
     }
 }
 // @lc code=end
