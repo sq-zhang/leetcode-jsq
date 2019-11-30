@@ -41,7 +41,29 @@
 // @lc code=start
 class Solution {
     public boolean validPalindrome(String s) {
-        
+        return validPalindrome(s, false) || validPalindrome(s, true);
+    }
+
+    private boolean validPalindrome(String s, boolean remove) {
+        boolean flag = true;
+        int left = 0, right = s.length() - 1;
+        while(left < right) {
+            if (s.charAt(left) == s.charAt(right)) {
+                left++;
+                right--;
+            } else if (flag){
+                if (remove) {
+                    left++;
+                } else {
+                    right--;
+                }
+                flag = false;
+            } else {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
 // @lc code=end

@@ -63,7 +63,32 @@
 // @lc code=start
 class Solution {
     public boolean validUtf8(int[] data) {
-        
+        int bytesLeft = 0;
+        int mask1 = 1 << 7;
+        int mask2 = 1 << 6;
+        for(int i = 0;i < data.length;i++) {
+            if (bytesLeft == 0) {
+                int mask = 1 << 7;
+                while((mask & data[i]) != 0) {
+                    bytesLeft += 1;
+                    mask = mask >> 1;
+                }
+                if(bytesLeft == 0) {
+                    continue;
+                }
+                if (bytesLeft > 4 || bytesLeft == 1) {
+                    return false;
+                }
+            } else {
+                if (!((data[i] & mask1) != 0 && (data[i] & mask2) == 0)) {
+                    return false;
+                }
+            }
+            bytesLeft--;
+        }
+
+        return bytesLeft == 0;
+
     }
 }
 // @lc code=end

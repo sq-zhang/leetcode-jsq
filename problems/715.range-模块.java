@@ -1,3 +1,6 @@
+import java.util.Iterator;
+import java.util.TreeSet;
+
 /*
  * @lc app=leetcode.cn id=715 lang=java
  *
@@ -54,20 +57,76 @@
 // @lc code=start
 class RangeModule {
 
+    private TreeSet<Range> ranges;
+
     public RangeModule() {
-        
+        ranges = new TreeSet<>();
     }
     
     public void addRange(int left, int right) {
-        
+        Iterator<Range> iterator = ranges.tailSet(new Range(0, left - 1)).iterator();
+        while(iterator.hasNext()) {
+            Range range = iterator.next();
+            if (right < range.getLeft()) {
+                break;
+            }
+            left = Math.min(left, range.getLeft());
+            right = Math.max(right, range.getRight());
+            iterator.remove();
+        }
+        ranges.add(new Range(left, right));
     }
     
     public boolean queryRange(int left, int right) {
-        
+        Range range = ranges.higher(new Range(0, left));
+        return range != null && range.getLeft() <= left && right <= range.getRight();
     }
     
     public void removeRange(int left, int right) {
-        
+        Iterator<Range> iterator = ranges.tailSet(new Range(0, left)).iterator();
+        List<Range> adds = new ArrayList<>();
+        while(iterator.hasNext()) {
+            Range range = iterator.next();
+            if (right < range.getLeft()) {
+                break;
+            }
+            if (range.getLeft() < left) {
+                adds.add(new Range(range.getLeft(), left));
+            }
+            if (right < range.getRight()) {
+                adds.add(new Range(right, range.getRight()));
+            }
+            iterator.remove();
+        }
+        for(Range range : adds) {
+            ranges.add(range);
+        }
+    }
+}
+
+class Range implements Comparable<Range>{
+    private int left;
+    private int right;
+
+    public Range(int left, int right){
+        this.left = left;
+        this.right = right;
+    }
+
+    public int compareTo(Range that){
+        if (this.right == that.right) {
+            return this.left - that.left; 
+        }
+
+        return this.right - that.right;
+    }
+
+    public int getLeft() {
+        return this.left;
+    }
+
+    public int getRight() {
+        return this.right;
     }
 }
 

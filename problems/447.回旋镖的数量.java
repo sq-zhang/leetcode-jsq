@@ -36,7 +36,28 @@
 // @lc code=start
 class Solution {
     public int numberOfBoomerangs(int[][] points) {
-        
+        int res = 0;
+        Map<Integer, Integer> distanceMap = new HashMap<>();
+        for(int i = 0;i < points.length;i++) {
+            distanceMap.clear();
+            for(int j = 0;j < points.length;j++) {
+                if (i == j) {
+                    continue;
+                }
+                int distance = getDistance(points[i][0], points[i][1], points[j][0], points[j][1]);
+                int mapDis = distanceMap.getOrDefault(distance, 0);
+                res += mapDis * 2;
+                distanceMap.put(distance, mapDis + 1);
+            }
+        }
+
+        return res;
+    }
+
+    private int getDistance(int point1X, int point1Y, int point2X, int point2Y) {
+        int disX = point1X - point2X;
+        int disY = point1Y - point2Y;
+        return  disX * disX + disY * disY;
     }
 }
 // @lc code=end

@@ -49,7 +49,25 @@
 // @lc code=start
 class Solution {
     public String countAndSay(int n) {
-        
+        StringBuilder next = new StringBuilder("1");
+        while(n > 1) {
+            StringBuilder last = next;
+            next = new StringBuilder();
+            int count = 1;
+            char lastChar = last.charAt(0);
+            for(int i = 1;i < last.length();i++) {
+                if (last.charAt(i) != lastChar) {
+                    next.append(count).append(lastChar);
+                    count = 1;
+                    lastChar = last.charAt(i);
+                } else {
+                    count++;
+                }
+            }
+            next.append(count).append(lastChar);
+            n--;
+        }
+        return next.toString();
     }
 }
 // @lc code=end
