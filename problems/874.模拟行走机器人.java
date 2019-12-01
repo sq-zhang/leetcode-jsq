@@ -62,7 +62,39 @@
 // @lc code=start
 class Solution {
     public int robotSim(int[] commands, int[][] obstacles) {
-        
+        int[][] dir = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        int x = 0, y = 0, dir_i = 0, res = 0;
+        Set<Long> obstacleSet = new HashSet<>();
+        for(int[] obstacle : obstacles) {
+            obstacleSet.add(getPointCode(obstacle[0], obstacle[1]));
+        }
+
+        for(int i = 0;i < commands.length;i++) {
+            if (commands[i] == -1) {
+                dir_i = (dir_i + 1) % 4;
+            } else if (commands[i] == -2) {
+                dir_i = (dir_i + 3) % 4;
+            } else if (commands[i] > 0) {
+                for(int j = 1;j <= commands[i];j++) {
+                    int nx = x + dir[dir_i][0], ny = y + dir[dir_i][1];
+                    if(obstacleSet.contains(getPointCode(nx, ny))) {
+                        break;
+                    } else {
+                        x = nx;
+                        y = ny;
+                        res = Math.max(res, x * x + y * y);
+                    }
+                }
+            }
+        }
+
+        return res;
+    }
+
+    private long getPointCode(int x, int y) {
+        long ox = (long) x + 30000;
+        long oy = (long) y + 30000;
+        return (ox << 16) + oy;
     }
 }
 // @lc code=end

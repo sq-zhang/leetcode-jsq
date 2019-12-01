@@ -48,7 +48,36 @@
 // @lc code=start
 class Solution {
     public List<String> findAndReplacePattern(String[] words, String pattern) {
-        
+        List<String> result = new ArrayList<>();
+        for(String word : words) {
+            if(word.length() != pattern.length()) {
+                continue;
+            }
+            if(findPattern(word, pattern)) {
+                result.add(word);
+            }
+        }
+
+        return result;
+    }
+
+    private boolean findPattern(String word, String pattern) {
+        Map<Character, Character> wordMap = new HashMap<>();
+        Map<Character, Character> patternMap = new HashMap<>();
+        for(int i = 0;i < word.length();i++) {
+            char w = word.charAt(i);
+            char p = pattern.charAt(i);
+            if (!wordMap.containsKey(w)) {
+                wordMap.put(w, p);
+            }
+            if (!patternMap.containsKey(p)) {
+                patternMap.put(p, w);
+            }
+            if (wordMap.get(w) != p || patternMap.get(p) != w) {
+                return false;
+            }
+        }
+        return true;
     }
 }
 // @lc code=end
