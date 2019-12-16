@@ -74,8 +74,31 @@
  */
 class Solution {
     public boolean isSubtree(TreeNode s, TreeNode t) {
-        
+        if (s == null && t == null) {
+            return true;
+        } else if (s == null || t == null) {
+            return false;
+        } else {
+            if (s.val == t.val) {
+                return isEqual(s, t) || isSubtree(s.left, t) || isSubtree(s.right, t);
+            } else {
+                return isSubtree(s.left, t) || isSubtree(s.right, t);
+            }
+        }
     }
+
+    private boolean isEqual(TreeNode l, TreeNode r) {
+        if (l == null && r == null) {
+            return true;
+        }else if (l == null || r == null) {
+            return false;
+        } else if (l.val == r.val) {
+            return isEqual(l.left, r.left) && isEqual(l.right, r.right);
+        } else {
+            return false;
+        }
+    }
+    
 }
 // @lc code=end
 

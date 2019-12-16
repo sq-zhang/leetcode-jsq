@@ -39,25 +39,44 @@
 // @lc code=start
 class MinStack {
 
+    private Stack<Integer> dataStack;
+
+    private Stack<Integer> minStack;
+
     /** initialize your data structure here. */
     public MinStack() {
-        
+        dataStack = new Stack<>();
+        minStack = new Stack<>();
     }
     
     public void push(int x) {
-        
+        dataStack.add(x);
+        if (minStack.isEmpty() || minStack.peek() >= x) {
+            minStack.add(x);
+        } else {
+            minStack.add(minStack.peek());
+        }
     }
     
     public void pop() {
-        
+        if (!dataStack.isEmpty()) {
+            dataStack.pop();
+            minStack.pop();
+        }
     }
     
     public int top() {
-        
+        if (!dataStack.isEmpty()) {
+            return dataStack.peek();
+        }
+        return -1;
     }
     
     public int getMin() {
-        
+        if (!minStack.isEmpty()) {
+            return minStack.peek();
+        }
+        return -1;
     }
 }
 
