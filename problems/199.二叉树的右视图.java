@@ -42,7 +42,27 @@
  */
 class Solution {
     public List<Integer> rightSideView(TreeNode root) {
-        
+        List<Integer> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        List<TreeNode> queue = new ArrayList();
+        queue.add(root);
+        while(!queue.isEmpty()) {
+            res.add(queue.get(queue.size() - 1).val);
+            List<TreeNode> newQueue = new ArrayList();
+            for(TreeNode node : queue) {
+                if (node.left != null) {
+                    newQueue.add(node.left);
+                }
+                if (node.right != null) {
+                    newQueue.add(node.right);
+                }
+            }
+            queue = newQueue;
+        }
+
+        return res;
     }
 }
 // @lc code=end

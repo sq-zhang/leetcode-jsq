@@ -31,7 +31,21 @@
 // @lc code=start
 class Solution {
     public int minSubArrayLen(int s, int[] nums) {
+        int n = nums.length;
+        if (n == 0) {
+            return 0;
+        }
         
+        int res = Integer.MAX_VALUE, left = 0, sum = 0;
+        for(int i = 0;i < n;i++) {
+            sum += nums[i];
+            while(sum >= s) {
+                res = Math.min(res, i + 1 - left);
+                sum -= nums[left++];
+            }
+        }
+
+        return res == Integer.MAX_VALUE ? 0 : res;
     }
 }
 // @lc code=end
