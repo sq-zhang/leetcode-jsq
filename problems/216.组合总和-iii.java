@@ -39,7 +39,27 @@
 // @lc code=start
 class Solution {
     public List<List<Integer>> combinationSum3(int k, int n) {
-        
+        List<List<Integer>> res = new ArrayList<>();
+        dfs(k, n, 1, new ArrayList<>(), res);
+        return res;
+    }
+
+    private void dfs(int k, int n, int start, List<Integer> sums, List<List<Integer>> res) {
+        if (k < 0 || n < 0) {
+            return;
+        }
+        if (k == 0 && n == 0) {
+            if (!sums.isEmpty()) {
+                res.add(new ArrayList<>(sums));
+            }
+            return;
+        }
+
+        for(int i = start;i <= 9;i++) {
+            sums.add(i);
+            dfs(k - 1, n - i, i + 1, sums, res);
+            sums.remove(sums.size() - 1);
+        }
     }
 }
 // @lc code=end
