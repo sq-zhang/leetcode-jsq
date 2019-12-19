@@ -61,7 +61,24 @@ class Node {
 */
 class Solution {
     public Node copyRandomList(Node head) {
-        
+        if (head == null) {
+            return null;
+        }
+        Map<Node, Node> maps = new HashMap<>();
+        Node node = head;
+        while(node != null) {
+            maps.put(node, new Node(node.val, null, null));
+            node = node.next;
+        }
+
+        node = head;
+        while(node != null) {
+            maps.get(node).next = maps.get(node.next);
+            maps.get(node).random = maps.get(node.random);
+            node = node.next;
+        }
+
+        return maps.get(head);
     }
 }
 // @lc code=end

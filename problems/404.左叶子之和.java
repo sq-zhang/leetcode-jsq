@@ -42,7 +42,31 @@
  */
 class Solution {
     public int sumOfLeftLeaves(TreeNode root) {
-        
+        int res = 0;
+        if (root == null) {
+            return res;
+        }
+        List<TreeNode> queue = new ArrayList<>();
+        queue.add(root);
+        while(!queue.isEmpty()) {
+            List<TreeNode> tmp = new ArrayList<>();
+            for(int i = 0;i < queue.size();i++) {
+                TreeNode node = queue.get(i);
+                if (node.left != null) {
+                    if (node.left.left == null && node.left.right == null) {
+                        res += node.left.val;
+                    } else {
+                        tmp.add(node.left);
+                    }
+                }
+                if (node.right != null) {
+                    tmp.add(node.right);
+                }
+            }
+            queue = tmp;
+        }
+
+        return res;
     }
 }
 // @lc code=end
