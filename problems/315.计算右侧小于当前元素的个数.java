@@ -32,7 +32,31 @@
 // @lc code=start
 class Solution {
     public List<Integer> countSmaller(int[] nums) {
-        
+        List<Integer> res = new ArrayList<>();
+        int n = nums.length;
+        if (n == 0) {
+            return res;
+        }
+        int[] dp = new int[n];
+        for(int i = n - 2;i >= 0;i--) {
+            int count = 0;
+            for(int j = i + 1;j < n;j++) {
+                if (nums[j] < nums[i]) {
+                    count++;
+                }
+                if (nums[j] == nums[i]) {
+                    count += dp[j];
+                    break;
+                }
+            }
+            dp[i] = count;
+        }
+
+        for(int i = 0;i < n;i++) {
+            res.add(dp[i]);
+        }
+
+        return res;
     }
 }
 // @lc code=end
