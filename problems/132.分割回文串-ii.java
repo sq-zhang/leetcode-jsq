@@ -28,8 +28,42 @@
 
 // @lc code=start
 class Solution {
+
+    private int res = Integer.MAX_VALUE;
+
     public int minCut(String s) {
-        
+        int n = s.length();
+        if (n < 2) {
+            return 0;
+        }
+        int[] dp = new int[n];
+        for(int i = 0;i < n;i++) {
+            dp[i] = i;
+        }
+        boolean[][] checkPalindrome = new boolean[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                if (s.charAt(j) == s.charAt(i) && (i - j <= 2 || 
+                    checkPalindrome[j + 1][i - 1])) {
+                    checkPalindrome[j][i] = true;
+                }
+            }
+        }
+
+        for(int i = 1;i < n;i++) {
+            if (checkPalindrome[0][i]) {
+                dp[i] = 0;
+                continue;
+            }
+
+            for(int j = 0;j < i;j++) {
+                if (checkPalindrome[j + 1][i]) {
+                    dp[i] = Math.min(dp[i], dp[j] + 1);
+                }
+            }
+        }
+
+        return dp[n - 1];
     }
 }
 // @lc code=end

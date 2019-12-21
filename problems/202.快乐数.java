@@ -34,7 +34,27 @@
 // @lc code=start
 class Solution {
     public boolean isHappy(int n) {
-        
+        if (n == 1) {
+            return true;
+        }
+        Set<Integer> nums = new HashSet<>();
+        nums.add(n);
+        while(true) {
+            int tmp = 0;
+            while(n > 0) {
+                tmp += (n % 10) * (n % 10);
+                n /= 10;
+            }
+            if (tmp == 1) {
+                return true;
+            }
+            if (!nums.add(tmp)) {
+                break;
+            }
+            n = tmp;
+        }
+
+        return false;
     }
 }
 // @lc code=end

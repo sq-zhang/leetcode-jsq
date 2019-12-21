@@ -56,7 +56,23 @@
 // @lc code=start
 class Solution {
     public int removeDuplicates(int[] nums) {
-        
+        if (nums.length == 0) {
+            return 0;
+        }
+        int k = 0, count = 0, last = nums[0];
+        for(int i = 0;i < nums.length;i++) {
+            if (i == 0 || nums[i] == last) {
+                count++;
+            } else {
+                last = nums[i];
+                count = 1;
+            }
+            if (count <= 2) {
+                nums[k++] = nums[i];
+            } 
+        }
+
+        return k;
     }
 }
 // @lc code=end
