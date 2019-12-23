@@ -46,7 +46,21 @@
 // @lc code=start
 class Solution {
     public int[] intersect(int[] nums1, int[] nums2) {
-        
+        Map<Integer, Integer> nums1Map = new HashMap<>();
+        for(int n : nums1) {
+            nums1Map.put(n, nums1Map.getOrDefault(n, 0) + 1);
+        }
+
+        int k = 0;
+        for(int n : nums2) {
+            int count = nums1Map.getOrDefault(n, 0);
+            if (count > 0) {
+                nums1[k++] = n;
+                nums1Map.put(n, count - 1);
+            }
+        }
+
+        return Arrays.copyOfRange(nums1, 0, k);
     }
 }
 // @lc code=end

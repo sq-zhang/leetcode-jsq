@@ -32,7 +32,20 @@
 // @lc code=start
 class Solution {
     public String addBinary(String a, String b) {
-        
+        int i = a.length() - 1, j = b.length() - 1, flag = 0;
+        StringBuilder res = new StringBuilder();
+        while(i >= 0 || j >= 0 || flag > 0) {
+            if (i >= 0) {
+                flag += a.charAt(i--) - '0';
+            }
+            if (j >= 0) {
+                flag += b.charAt(j--) - '0';
+            }
+            res.append(flag % 2);
+            flag /= 2;
+        }
+
+        return res.reverse().toString();
     }
 }
 // @lc code=end

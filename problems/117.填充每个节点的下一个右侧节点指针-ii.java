@@ -86,7 +86,25 @@ class Node {
 */
 class Solution {
     public Node connect(Node root) {
-        
+        Node head = root;
+        while(head != null) {
+            Node level = new Node();
+            Node tail = level;
+            while(head != null) {
+                if (head.left != null) {
+                    tail.next = head.left;
+                    tail = tail.next;
+                }
+                if (head.right != null) {
+                    tail.next = head.right;
+                    tail = tail.next;
+                }
+                head = head.next;
+            }
+            head = level.next;
+        }
+
+        return root;
     }
 }
 // @lc code=end
