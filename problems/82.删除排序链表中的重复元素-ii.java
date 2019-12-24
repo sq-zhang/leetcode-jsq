@@ -39,7 +39,29 @@
  */
 class Solution {
     public ListNode deleteDuplicates(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        ListNode res = new ListNode(-1), last = null;
+        ListNode current = res;
+        boolean delete = true;
+        while(head != null) {
+            if (last == null || last.val != head.val) {
+                if (!delete) {
+                    current.next = last;
+                    current = current.next;
+                }
+                last = head;
+                delete = false;
+            } else {
+                delete = true;
+            }
+            head = head.next;
+        }
         
+        current.next = delete ? null : last;
+
+        return res.next;
     }
 }
 // @lc code=end

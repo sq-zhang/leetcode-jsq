@@ -48,7 +48,34 @@
  */
 class Solution {
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-        
+        List<List<Integer>> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        List<TreeNode> queue = new ArrayList<>();
+        queue.add(root);
+        int direction = 1;
+        while(!queue.isEmpty()) {
+            List<Integer> tmp = new ArrayList<>();
+            List<TreeNode> newQueue = new ArrayList<>();
+            for(TreeNode node : queue) {
+                tmp.add(node.val);
+                if (node.left != null) {
+                    newQueue.add(node.left);
+                }
+                if (node.right != null) {
+                    newQueue.add(node.right);
+                }
+            }
+            if (direction == -1) {
+                Collections.reverse(tmp);
+            }
+            direction *= -1;
+            queue = newQueue;
+            res.add(tmp);
+        }
+
+        return res;
     }
 }
 // @lc code=end

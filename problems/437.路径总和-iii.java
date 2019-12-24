@@ -54,7 +54,26 @@
  */
 class Solution {
     public int pathSum(TreeNode root, int sum) {
+        if (root == null) {
+            return 0;
+        }
+        return dfs(root, sum) + pathSum(root.left, sum) 
+            + pathSum(root.right, sum);
+    }
+
+    private int dfs(TreeNode node, int sum) {
+        if (node == null) {
+            return 0;
+        }
+        int res = 0, left = sum - node.val;
+        if (left == 0) {
+            res++;
+        }
         
+        res += dfs(node.left, left);
+        res += dfs(node.right, left);
+
+        return res;
     }
 }
 // @lc code=end

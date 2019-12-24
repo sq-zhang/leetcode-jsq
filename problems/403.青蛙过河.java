@@ -59,7 +59,23 @@
 // @lc code=start
 class Solution {
     public boolean canCross(int[] stones) {
-        
+        Map<Integer, Set<Integer>> dp = new HashMap<>();
+        int n = stones.length;
+        for(int i = 0;i < n;i++) {
+            dp.put(stones[i], new HashSet<Integer>());
+        }
+        dp.get(0).add(0);
+        for(int i = 0;i < n;i++) {
+            for(int k : dp.get(stones[i])) {
+                for(int j = k - 1;j <= k + 1;j++) {
+                    if (j > 0 && dp.containsKey(stones[i] + j)) {
+                        dp.get(stones[i] + j).add(j);
+                    }
+                }
+            }
+        }
+
+        return dp.get(stones[n - 1]).size() > 0;
     }
 }
 // @lc code=end
