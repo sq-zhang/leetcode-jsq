@@ -38,7 +38,20 @@
 // @lc code=start
 class Solution {
     public int longestPalindrome(String s) {
-        
+        int[] chars = new int[122];
+        for(char c : s.toCharArray()) {
+            chars[c - 'A']++;
+        }
+        int res = 0;
+        boolean single = false;
+        for(int i = 0;i < 122 ;i++) {
+            res += chars[i] / 2;
+            if (chars[i] % 2 == 1) {
+                single = true;
+            }
+        }
+
+        return single ? 2 * res + 1 : 2 * res;
     }
 }
 // @lc code=end

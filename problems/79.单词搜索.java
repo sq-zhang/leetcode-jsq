@@ -34,8 +34,40 @@
 
 // @lc code=start
 class Solution {
+    private int[][] dirs = new int[][]{{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
     public boolean exist(char[][] board, String word) {
-        
+        if (board.length == 0 || board[0].length == 0) {
+            return false;
+        }
+        for(int i = 0;i < board.length;i++) {
+            for(int j = 0;j < board[0].length;j++) {
+                if (dfs(board, word, i, j, 0)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean dfs(char[][] board, String word, int i, int j, int start) {
+        if (word.length() - 1 == start) {
+            return board[i][j] == word.charAt(start);
+        }
+        if (board[i][j] == word.charAt(start)) {
+            board[i][j] = '#';
+            for(int[] dir : dirs) {
+                int x = i + dir[0], y = j + dir[1];
+                if (x < 0 || x >= board.length || y < 0 || y >= board[0].length) {
+                    continue;
+                }
+                if (dfs(board, word, x, y, start + 1)) {
+                    return true;
+                }
+            }
+            board[i][j] = word.charAt(start);
+        }
+
+        return false;
     }
 }
 // @lc code=end
