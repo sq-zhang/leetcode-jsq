@@ -52,24 +52,65 @@
 // @lc code=start
 class RandomizedCollection {
 
+    private Map<Integer,Set<Integer>> numsMap;
+    private List<Integer> nums;
+    private Random random;
+    private int size = 0 ;
+
     /** Initialize your data structure here. */
     public RandomizedCollection() {
-        
+        numsMap = new HashMap<>();
+        nums = new ArrayList<>();
+        random = new Random();
     }
     
     /** Inserts a value to the collection. Returns true if the collection did not already contain the specified element. */
     public boolean insert(int val) {
-        
+        if(numsMap.containsKey(val)){
+            Set<Integer> indexes = numsMap.get(val);
+            nums.add(size, val);
+            indexes.add(size);
+            size++;
+            return false;
+        } else {
+            Set<Integer> indexes = new HashSet<>();
+            numsMap.put(val,indexes);
+            nums.add(size, val);
+            indexes.add(size);
+            size++;
+            return true;
+        }
     }
     
     /** Removes a value from the collection. Returns true if the collection contained the specified element. */
     public boolean remove(int val) {
-        
+        if(!numsMap.containsKey(val)){
+            return false;
+        }
+        Set<Integer> indexes = numsMap.get(val);
+        if(nums.get(size-1) == val){
+            indexes.remove(size-1);
+            size--;
+        } else {
+            Iterator<Integer> it = indexes.iterator();
+            int index = it.next();
+            it.remove();
+            int last = nums.get(size - 1);
+            nums.set(index, last);
+            Set<Integer> set = numsMap.get(last);
+            set.remove(size - 1);
+            set.add(index);
+            size--;
+        }
+        if(indexes.size() == 0){
+            numsMap.remove(val);
+        }
+        return true;
     }
     
     /** Get a random element from the collection. */
     public int getRandom() {
-        
+        return nums.get(random.nextInt(size));
     }
 }
 
