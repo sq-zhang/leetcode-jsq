@@ -66,7 +66,24 @@
 // @lc code=start
 class Solution {
     public String simplifyPath(String path) {
+        String[] s = path.split("/");
+        LinkedList<String> res = new LinkedList<>();
         
+        for(int i = 0;i < s.length;i++) {
+            if (!res.isEmpty() && s[i].equals("..")) {
+                res.pollLast();
+            } else if (!s[i].equals("") && !s[i].equals(".") 
+                && !s[i].equals("..")) {
+                res.add(s[i]);
+            }
+        }
+
+        String r = "/";
+        if (res.isEmpty()) {
+            return r;
+        }
+        return r + String.join("/", res);
+
     }
 }
 // @lc code=end
