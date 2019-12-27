@@ -63,7 +63,33 @@
 // @lc code=start
 class Solution {
     public List<String> wordBreak(String s, List<String> wordDict) {
-        
+        return dfs(s, new HashSet<>(wordDict), new HashMap<String, List<String>>());
+    }
+
+    public List<String> dfs(String s, Set<String> wordDict, Map<String, List<String>> map) {
+        if (s.length() == 0) {
+            return new ArrayList<>();
+        }
+        if (map.containsKey(s)) {
+            return map.get(s);
+        }
+        List<String> res = new ArrayList<>();
+
+        for(int i = 0; i < s.length(); i++) {
+            String word = s.substring(i);
+            if (wordDict.contains(word)) {
+                if (i == 0) {
+                    res.add(word);
+                } else {
+                    List<String> worList = dfs(s.substring(0, i), wordDict, map);
+                    for(int k = 0;k < worList.size();k++) {
+                        res.add(worList.get(k) + " " + word);
+                    }
+                }
+            }
+        }
+        map.put(s, res);
+        return res;
     }
 }
 // @lc code=end
