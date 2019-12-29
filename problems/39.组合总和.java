@@ -49,7 +49,26 @@
 // @lc code=start
 class Solution {
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        
+        List<List<Integer>> res = new ArrayList<>();
+        Arrays.sort(candidates);
+        dfs(candidates, target, 0, new ArrayList<>(), res);
+        return res;
+    }
+
+    private void dfs(int[] candidates, int target, int start, List<Integer> nums, List<List<Integer>> res) {
+        if (target == 0) {
+            res.add(new ArrayList<>(nums));
+            return;
+        }
+        for(int i = start;i < candidates.length;i++) {
+            if (candidates[i] <= target) {
+                nums.add(candidates[i]);
+                dfs(candidates, target - candidates[i], i, nums, res);
+                nums.remove(nums.size() - 1);
+            } else {
+                break;
+            }
+        }
     }
 }
 // @lc code=end

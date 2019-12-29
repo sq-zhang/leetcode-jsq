@@ -36,7 +36,24 @@
 // @lc code=start
 class Solution {
     public List<List<Integer>> generate(int numRows) {
-        
+        List<List<Integer>> res = new ArrayList<>();
+        if (numRows == 0) {
+            return res;
+        }
+        res.add(new ArrayList<>());
+        res.get(0).add(1);
+        for(int i = 1;i < numRows;i++) {
+            List<Integer> rows = new ArrayList<>();
+            List<Integer> lastRow = res.get(i - 1);
+            rows.add(1);
+            for(int j = 1;j < lastRow.size();j++) {
+                rows.add(lastRow.get(j - 1) + lastRow.get(j));
+            }
+            rows.add(1);
+            res.add(rows);
+        }
+
+        return res;
     }
 }
 // @lc code=end

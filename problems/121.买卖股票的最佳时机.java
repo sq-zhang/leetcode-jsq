@@ -39,7 +39,15 @@
 // @lc code=start
 class Solution {
     public int maxProfit(int[] prices) {
-        
+        int res = 0, min = Integer.MAX_VALUE;
+        for(int n : prices) {
+            if (n < min) {
+                min = n;
+            } else if (n - min > res) {
+                res = n - min;
+            }
+        }
+        return res;
     }
 }
 // @lc code=end
