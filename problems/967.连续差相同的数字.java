@@ -47,7 +47,32 @@
 // @lc code=start
 class Solution {
     public int[] numsSameConsecDiff(int N, int K) {
-        
+        List<Integer> res = new ArrayList<>();
+        if (N == 1) {
+            return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        }
+        for(int i = 1;i < 10;i++) {
+            dfs(i, i, N - 1, K, res);
+        }
+
+        int[] arr = new int[res.size()];
+        for(int i = 0;i < res.size();i++) {
+            arr[i] = res.get(i);
+        }
+        return arr;
+    }
+
+    private void dfs(int val, int pre, int n, int k, List<Integer> res) {
+        if (n == 0) {
+            res.add(val);
+            return;
+        }
+
+        for(int i = 0;i <= 9;i++) {
+            if (pre - i == k || i - pre == k) {
+                dfs(val * 10 + i, i, n - 1, k, res);
+            }
+        }
     }
 }
 // @lc code=end

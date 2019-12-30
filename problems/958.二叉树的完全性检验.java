@@ -62,7 +62,37 @@
  */
 class Solution {
     public boolean isCompleteTree(TreeNode root) {
-        
+        if (root == null) {
+            return true;
+        }
+        List<TreeNode> queue = new ArrayList<>();
+        queue.add(root);
+        boolean leftFull = true;
+        while(!queue.isEmpty()) {
+            List<TreeNode> newQueue = new ArrayList<>();
+            for(TreeNode node : queue) {
+               if (node.left == null && node.right == null) {
+                    leftFull = false;
+                    continue;
+                }
+                if (!leftFull) {
+                    return false;
+                }
+                if (node.left == null) {
+                    return false;
+                } else if (node.right == null) {
+                    newQueue.add(node.left);
+                    leftFull = false;
+                } else {
+                    newQueue.add(node.left);
+                    newQueue.add(node.right);
+                }
+            }
+
+            queue = newQueue;
+        }
+
+        return true;
     }
 }
 // @lc code=end

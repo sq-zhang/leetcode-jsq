@@ -67,7 +67,16 @@
 // @lc code=start
 class Solution {
     public int superEggDrop(int K, int N) {
-        
+        int[][] dp = new int[K + 1][N + 1];
+        for(int i = 1;i <= N;i++) {
+            for(int k = 1;k <= K;k++) {
+                dp[k][i] = dp[k][i - 1] + dp[k - 1][i - 1] + 1;
+                if (dp[k][i] >= N) {
+                    return i;
+                }
+            }
+        }
+        return N;
     }
 }
 // @lc code=end
