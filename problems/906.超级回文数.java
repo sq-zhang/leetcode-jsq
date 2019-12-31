@@ -45,7 +45,49 @@
 // @lc code=start
 class Solution {
     public int superpalindromesInRange(String L, String R) {
-        
+        long l = Long.valueOf(L), r = Long.valueOf(R);
+        int res = 0, maxK = 100000;
+
+        for(int i = 1;i < maxK;i++) {
+            StringBuilder s = new StringBuilder(Integer.toString(i));
+            for(int j = s.length() - 2;j >= 0;j--) {
+                s.append(s.charAt(j));
+            }
+            long v = Long.valueOf(s.toString());
+            v *= v;
+            if (v > r) {
+                break;
+            }
+            if (v >= l && isPalindrome(v)) {
+                res++;
+            }
+        }
+
+        for(int i = 1;i < maxK;i++) {
+            StringBuilder s = new StringBuilder(Integer.toString(i));
+            for(int j = s.length() - 1;j >= 0;j--) {
+                s.append(s.charAt(j));
+            }
+            long v = Long.valueOf(s.toString());
+            v *= v;
+            if (v > r) {
+                break;
+            }
+            if (v >= l && isPalindrome(v)) {
+                res++;
+            }
+        }
+
+        return res;
+    }
+
+    private boolean isPalindrome(long x) {
+        long n = 0, y = x;
+        while(x > 0) {
+            n = 10 * n + x % 10;
+            x /= 10;
+        }
+        return n == y;
     }
 }
 // @lc code=end

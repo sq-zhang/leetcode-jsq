@@ -56,7 +56,30 @@
 // @lc code=start
 class Solution {
     public int clumsy(int N) {
-        
+        int[] nums = new int[N];
+        for(int i = 0;i<nums.length;i++){
+            nums[i] = N--;
+        }
+        int index = 0;
+        int res = calculate(nums, index);
+        index += 3;
+        while(index < nums.length){
+            res += nums[index];
+            index++;
+            res -= calculate(nums, index);
+            index+=3;
+        }
+        return res;
+    }
+
+    private int calculate(int[] nums, int index){
+        if(index >= nums.length)
+            return 0;
+        if(index == nums.length - 1)
+            return nums[index];
+        if(index == nums.length - 2)
+            return nums[index] * nums[index + 1];
+        return nums[index] * nums[index + 1] / nums[index + 2];
     }
 }
 // @lc code=end

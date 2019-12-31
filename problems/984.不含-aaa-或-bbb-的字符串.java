@@ -50,7 +50,29 @@
 // @lc code=start
 class Solution {
     public String strWithout3a3b(int A, int B) {
-        
+        StringBuilder res = new StringBuilder();
+        while(A > 0 && B > 0){
+            if(A > B){
+                res.append("aab");
+                A -= 2;
+                B -= 1;
+            }else if(B > A){
+                res.append("bba");
+                A -= 1;
+                B -= 2;
+            } else {
+                res.append("ab");
+                A--;
+                B--;
+            }
+        }
+        for(int i = 0;i < A;i++){
+            res.append("a");
+        }
+        for(int i=0;i < B;i++){
+            res.append("b");
+        }
+        return res.toString();
     }
 }
 // @lc code=end
