@@ -34,7 +34,39 @@
 // @lc code=start
 class Solution {
     public boolean isPalindrome(String s) {
+        int l = 0, r = s.length() - 1;
         
+        while(l < r) {
+            char lc = s.charAt(l);
+            if(!isCharacterOrNumber(lc)) {
+                l++;
+                continue;
+            }
+            char rc = s.charAt(r);
+            if(!isCharacterOrNumber(rc)) {
+                r--;
+                continue;
+            }
+
+            if (lc >= 'A' && lc <= 'Z') {
+                lc = (char)(lc + 32);
+            }
+            if (rc >= 'A' && rc <= 'Z') {
+                rc = (char)(rc + 32);
+            }
+
+            if (lc != rc) {
+                return false;
+            }
+            l++;
+            r--;
+
+        }
+        return true;
+    }
+
+    private boolean isCharacterOrNumber(char c) {
+        return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
     }
 }
 // @lc code=end

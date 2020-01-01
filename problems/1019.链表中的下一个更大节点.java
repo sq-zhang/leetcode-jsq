@@ -66,7 +66,20 @@
  */
 class Solution {
     public int[] nextLargerNodes(ListNode head) {
-        
+        int[] res = new int[10000];
+        int[] values = new int[10000];
+        Stack<Integer> stack = new Stack<>();
+        int i = 0, v = 0;
+        while(head != null) {
+            values[i] = head.val;
+            while(!stack.isEmpty() && head.val > values[stack.peek()]) {
+                res[stack.pop()] = head.val;
+            }
+            stack.add(i++);
+            head = head.next;
+        }
+
+        return Arrays.copyOf(res, i);
     }
 }
 // @lc code=end

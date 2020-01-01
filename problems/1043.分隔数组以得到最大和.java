@@ -39,7 +39,19 @@
 // @lc code=start
 class Solution {
     public int maxSumAfterPartitioning(int[] A, int K) {
-        
+        int[] dp = new int[A.length];
+        for (int i = 0; i < A.length; i++) {
+            int domainMax = A[i];
+            for (int j = 1; j <= K && i - j + 1 >= 0; j++) {
+                domainMax = Math.max(domainMax, A[i - j + 1]);
+                if (i - j >= 0) {
+                    dp[i] = Math.max(dp[i], dp[i - j] + j * domainMax);
+                } else {
+                    dp[i] = Math.max(dp[i], j * domainMax);
+                }
+            }
+        }
+        return dp[A.length - 1];
     }
 }
 // @lc code=end

@@ -45,7 +45,20 @@
  */
 class Solution {
     public boolean hasPathSum(TreeNode root, int sum) {
+        if (root == null) {
+            return false;
+        }
         
+        return dfs(root, sum, root);
+    }
+
+    private boolean dfs(TreeNode root, int sum, TreeNode parent) {
+        if (root == null) {
+            return sum == 0 && parent.left == null && parent.right == null;
+        }
+
+        return dfs(root.left, sum - root.val, root) || 
+            dfs(root.right, sum - root.val, root);
     }
 }
 // @lc code=end
