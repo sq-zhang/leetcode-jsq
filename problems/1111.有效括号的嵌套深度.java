@@ -69,7 +69,18 @@
 // @lc code=start
 class Solution {
     public int[] maxDepthAfterSplit(String seq) {
-        
+        int[] res = new int[seq.length()];
+        int isZero = 1;
+        for (int i = 0; i < seq.length(); i++) {
+            if (seq.charAt(i) == '(') {
+                isZero ^= 1;
+                res[i] = isZero;
+            } else {        
+                res[i] = isZero;
+                isZero ^= 1;
+            }
+        }
+        return res;
     }
 }
 // @lc code=end

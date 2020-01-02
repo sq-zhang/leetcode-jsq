@@ -70,7 +70,49 @@
 // @lc code=start
 class Solution {
     public int[] shortestAlternatingPaths(int n, int[][] red_edges, int[][] blue_edges) {
-        
+        int[] res = new int[n];
+        Arrays.fill(res, -1);
+        res[0] = 0;
+        Map<Integer, List<Integer>> red = new HashMap<>();
+        Map<Integer, List<Integer>> blue = new HashMap<>();
+        for(int i = 0;i < red_edges.length;i++) {
+            red.computeIfAbsent(red_edges[i][0], k -> new ArrayList<>()).add(red_edges[i][1]);
+        }
+        for(int i = 0;i < blue_edges.length;i++) {
+            blue.computeIfAbsent(blue_edges[i][0], k -> new ArrayList<>()).add(blue_edges[i][1]);
+        }
+        List<String> queue = new ArrayList<>();
+        queue.add("B,0");
+        queue.add("R,0");
+        int step = 1;
+        while(!queue.isEmpty()) {
+            List<String> newQueue = new ArrayList<>();
+            for(String path : queue) {
+                String[] pathList = path.split(",");
+                Set<String> pathLine = new HashSet<>();
+                List<Integer> next;
+                String nextColor;
+                if ("B".equals(pathList[0])) {
+                    next = red.getOrDefault(Integer.valueOf(pathList[pathList.length - 1]), new ArrayList<>());
+                    nextColor = "R";
+                } else {
+                    next = blue.getOrDefault(Integer.valueOf(pathList[pathList.length - 1]), new ArrayList<>());
+                    nextColor = "B";
+                }
+                for(Integer x : next) {
+                    if (!pathNode.contains(x.toString())) {
+                        if (res[x] == -1) {
+                            res[x] = step;
+                        }
+                        newQueue.add(path.substring(1) + "," + nextColor + "," + x);
+                    }
+                }
+            }
+            step++;
+            queue = newQueue;
+        }
+
+        return res;
     }
 }
 // @lc code=end
