@@ -52,8 +52,40 @@
  * }
  */
 class Solution {
+
+    private List<Integer> res = new LinkedList<>();
+    private Integer current = 0;
+    private Integer max = 0;
+    private TreeNode pre;
+
     public int[] findMode(TreeNode root) {
-        
+        inOrder(root);
+        int[] resArr = new int[res.size()];
+        for(int i = 0;i < res.size();i++) {
+            resArr[i] = res.get(i);
+        }
+        return resArr;
+    }
+
+    private void inOrder(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        inOrder(root.left);
+        if (pre != null && pre.val == root.val) {
+            current++;
+        } else {
+            current = 1;
+        }
+        if (current == max) {
+            res.add(root.val);
+        } else if (current > max) {
+            max = current;
+            res.clear();
+            res.add(root.val);
+        }
+        pre = root;
+        inOrder(root.right);
     }
 }
 // @lc code=end

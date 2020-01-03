@@ -36,7 +36,24 @@
 // @lc code=start
 class Solution {
     public String convertToBase7(int num) {
-        
+        StringBuilder res = new StringBuilder();
+        boolean negative = false;
+        if (num < 0) {
+            negative = true;
+            num = -num;
+        } else if (num == 0) {
+            return res.append("0").toString();
+        }
+        while(num > 0) {
+            res.append(num % 7);
+            num /= 7;
+        }
+
+        if (negative) {
+            res.append("-");
+        }
+
+        return res.reverse().toString();
     }
 }
 // @lc code=end

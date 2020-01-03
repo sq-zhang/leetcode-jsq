@@ -60,8 +60,52 @@
 
 // @lc code=start
 class Solution {
+
+    private class Trade {
+        private String name;
+        private Integer time;
+        private Integer amount;
+        private String city;
+
+        public Trade(String name, Integer time, Integer amount, String city) {
+            this.name = name;
+            this.time = time;
+            this.amount = amount;
+            this.city = city;
+        }
+
+        @Override
+        public boolean equals(Object object) {
+            Trade trade = (Trade) object;
+            return this.name.equals(trade.name) && !this.city.equals(trade.city)
+                && Math.abs(this.time - trade.time) <= 60;
+        }
+
+        @Override
+        public String toString() {
+            return name + "," + time + "," + amount + "," + city;
+        }
+
+    }
+
     public List<String> invalidTransactions(String[] transactions) {
-        
+        List<String> result = new ArrayList<String>();
+        List<Trade> trades = new ArrayList<Trade>();
+
+        for (String s : transactions) {
+            String[] split = s.split(",");
+            Trade t = new Trade(split[0], Integer.parseInt(split[1]), Integer.parseInt(split[2]),
+                    split[3]);
+            trades.add(t);
+        }
+
+        trades.forEach(trade -> {
+            if (trade.amount > 1000 || trades.contains(trade)) {
+                result.add(trade.toString());
+            }
+        });
+
+        return result;
     }
 }
 // @lc code=end
