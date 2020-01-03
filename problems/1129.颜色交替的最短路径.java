@@ -70,49 +70,42 @@
 // @lc code=start
 class Solution {
     public int[] shortestAlternatingPaths(int n, int[][] red_edges, int[][] blue_edges) {
-        int[] res = new int[n];
-        Arrays.fill(res, -1);
-        res[0] = 0;
-        Map<Integer, List<Integer>> red = new HashMap<>();
-        Map<Integer, List<Integer>> blue = new HashMap<>();
-        for(int i = 0;i < red_edges.length;i++) {
-            red.computeIfAbsent(red_edges[i][0], k -> new ArrayList<>()).add(red_edges[i][1]);
+        Set<Integer>[][] graph = new HashSet[2][n];
+        for (int i = 0; i < n; i++) {
+            graph[0][i] = new HashSet<>();
+            graph[1][i] = new HashSet<>();
         }
-        for(int i = 0;i < blue_edges.length;i++) {
-            blue.computeIfAbsent(blue_edges[i][0], k -> new ArrayList<>()).add(blue_edges[i][1]);
+        for (int[] re : red_edges) {
+            graph[0][ re[0] ].add(re[1]);
         }
-        List<String> queue = new ArrayList<>();
-        queue.add("B,0");
-        queue.add("R,0");
-        int step = 1;
-        while(!queue.isEmpty()) {
-            List<String> newQueue = new ArrayList<>();
-            for(String path : queue) {
-                String[] pathList = path.split(",");
-                Set<String> pathLine = new HashSet<>();
-                List<Integer> next;
-                String nextColor;
-                if ("B".equals(pathList[0])) {
-                    next = red.getOrDefault(Integer.valueOf(pathList[pathList.length - 1]), new ArrayList<>());
-                    nextColor = "R";
-                } else {
-                    next = blue.getOrDefault(Integer.valueOf(pathList[pathList.length - 1]), new ArrayList<>());
-                    nextColor = "B";
-                }
-                for(Integer x : next) {
-                    if (!pathNode.contains(x.toString())) {
-                        if (res[x] == -1) {
-                            res[x] = step;
-                        }
-                        newQueue.add(path.substring(1) + "," + nextColor + "," + x);
-                    }
+        for (int[] blu : blue_edges) {
+            graph[1][ blu[0] ].add(blu[1]);
+        }
+        int[][] res = new int[2][n];
+        for (int i = 1; i < n; i++) {
+            res[0][i] = 2 * n;
+            res[1][i] = 2 * n;
+        }
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[] {0, 0});
+        q.offer(new int[] {0, 1});
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int color = cur[1], nextColor = 1 - cur[1];
+            for (int next : graph[nextColor][cur[0]]) {
+                if (res[nextColor][next] == 2 * n) {
+                    res[nextColor][next] = 1 + res[color][cur[0]];
+                    q.offer(new int[] {next, nextColor});
                 }
             }
-            step++;
-            queue = newQueue;
         }
-
-        return res;
+        
+        int[] ans = new int[n];
+        for (int i = 0; i < n; i++) {
+            int t = Math.min(res[0][i], res[1][i]);
+            ans[i] = (t == 2 * n) ? -1 : t;
+        }
+        return ans;
     }
 }
 // @lc code=end

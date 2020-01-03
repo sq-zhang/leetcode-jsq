@@ -58,7 +58,55 @@
 // @lc code=start
 class Solution {
     public int[] movesToStamp(String stamp, String target) {
-        
+        char[] stampChars = stamp.toCharArray();
+        char[] targetChars = target.toCharArray();
+        List<Integer> res = new ArrayList<>();
+        int count = 0, sLength = stampChars.length, tLength = targetChars.length;
+        boolean[] visited = new boolean[tLength];
+        while(count < tLength) {
+            boolean found = false;
+            for(int i = 0;i <= tLength - sLength;i++) {
+                if (!visited[i] && match(targetChars, i, stampChars)) {
+                    count += replace(targetChars, i, sLength);
+                    found = true;
+                    visited[i] = true;
+                    res.add(i);
+                    if (count == tLength) {
+                        break;
+                    }
+                }
+            }
+
+            if (!found) {
+                return new int[0];
+            }
+        }
+
+        int[] resArr = new int[res.size()];
+        for(int i = 0;i < res.size();i++) {
+            resArr[i] = res.get(res.size() - 1 - i);
+        }
+        return resArr;
+    }
+
+    private boolean match(char[] target, int i, char[] stamp) {
+        for(int j = 0;j < stamp.length;j++) {
+            if (target[j + i] != '*' && target[j + i] != stamp[j]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private int replace(char[] target, int i, int n) {
+        int count = 0;
+        for(int j = 0;j < n;j++) {
+            if (target[j + i] != '*') {
+                target[j + i] = '*';
+                count++;
+            }
+        }
+        return count;
     }
 }
 // @lc code=end
