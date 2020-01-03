@@ -55,8 +55,57 @@
 
 // @lc code=start
 class Solution {
+
+    private int[][] directions = new int[][]{{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+
+    private int len = 1_000_000;
+
     public boolean isEscapePossible(int[][] blocked, int[] source, int[] target) {
+        Set<String> blockSet = new HashSet<>();
+        for(int[] block : blocked) {
+            blockSet.add(block[0] + "," + block[1]);
+        }
+
+        return check(blockSet, source, target) && check(blockSet, target, source);
+    }
+
+    private boolean check(Set<String> blockSet, int[] source, int[] target) {
+        Set<String> visited = new HashSet<>();
+        Queue<String> queue = new LinkedList<>();
+        String sourceStr = source[0] + "," + source[1];
+        queue.offer(sourceStr);
+        visited.add(sourceStr);
         
+        while(!queue.isEmpty()) {
+            int size = queue.size();
+            if (size > blockSet.size()) {
+                return true;
+            }
+            
+            for(int i = 0; i < size; i++) {
+                String[] arr = queue.poll().split(",");
+                int x = Integer.valueOf(arr[0]), y = Integer.valueOf(arr[1]);
+                for(int[] d : directions) {
+                    int nx = x + d[0], ny = y + d[1];
+                    if (nx < 0 || nx >= len || ny < 0 || ny >= len) {
+                        continue;   
+                    }
+                    if (nx == target[0] && ny == target[1]) {
+                        return true;
+                    }
+                    
+                    String nKey = nx + "," + ny;
+                    if (visited.contains(nKey) || blockSet.contains(nKey)) {
+                        continue;
+                    }
+                    
+                    visited.add(nKey);
+                    queue.offer(nKey);
+                }
+            }
+        }
+
+        return false;
     }
 }
 // @lc code=end

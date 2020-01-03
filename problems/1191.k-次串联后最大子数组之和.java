@@ -62,7 +62,32 @@
 // @lc code=start
 class Solution {
     public int kConcatenationMaxSum(int[] arr, int k) {
-        
+        int res = 0, sum = 0;
+        int mod = 1_000_000_007;
+        for(int i = 0;i < arr.length;i++) {
+            sum += arr[i];
+            res = Math.max(res, sum);
+            sum = Math.max(sum, 0);
+        }
+        if (k == 1) {
+            return res;
+        }
+
+        int headMax = 0, tailMax = 0;
+        sum  = 0;
+        for(int i = 0;i < arr.length;i++) {
+            sum += arr[i];
+            headMax = Math.max(headMax, sum);
+        }
+        sum = 0;
+        for(int i = arr.length - 1;i >= 0;i--) {
+            sum += arr[i];
+            tailMax = Math.max(tailMax, sum);
+        }
+
+        return Math.max(res, Math.max((headMax + tailMax) % mod, 
+            (int)(((long)sum * (k - 2)) % mod + headMax + tailMax) % mod));
+
     }
 }
 // @lc code=end
