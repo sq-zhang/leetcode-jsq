@@ -54,7 +54,21 @@
 // @lc code=start
 class Solution {
     public int findPairs(int[] nums, int k) {
-        
+        if (k < 0) {
+            return 0;
+        }
+        Set<Integer> numsSet = new HashSet<>();
+        Set<Integer> res = new HashSet<>();
+        for(int n : nums) {
+            if (numsSet.contains(n - k)) {
+                res.add(n - k);
+            }
+            if (numsSet.contains(n + k)) {
+                res.add(n);
+            }
+            numsSet.add(n);
+        }
+        return res.size();
     }
 }
 // @lc code=end

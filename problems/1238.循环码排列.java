@@ -52,7 +52,24 @@
 // @lc code=start
 class Solution {
     public List<Integer> circularPermutation(int n, int start) {
-        
+        List<Integer> res = new ArrayList<>();
+        res.add(start);
+        int count = 1 << n;
+        boolean[] visited = new boolean[count];
+        visited[start] = true;
+        for(int i = 1;i < count;i++) {
+            for(int j = 0;j < n;j++) {
+                int t = start ^ (1 << j);
+                if (!visited[t]) {
+                    visited[t] = true;
+                    res.add(t);
+                    start = t;
+                    break;
+                }
+            }
+        }
+
+        return res;
     }
 }
 // @lc code=end

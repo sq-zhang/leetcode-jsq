@@ -29,7 +29,12 @@
 // @lc code=start
 class Solution {
     public String reverseWords(String s) {
-        
+        StringBuilder res = new StringBuilder();
+        String[] wordList = s.split(" ");
+        for(String word : wordList) {
+            res.append(new StringBuilder(word).reverse().toString() + " ");
+        }
+        return res.toString().trim();
     }
 }
 // @lc code=end

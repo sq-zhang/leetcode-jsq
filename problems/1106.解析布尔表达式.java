@@ -66,7 +66,41 @@
 // @lc code=start
 class Solution {
     public boolean parseBoolExpr(String expression) {
-        
+        Stack<Character> stack = new Stack<>();
+        for(char e : expression.toCharArray()) {
+            if (e == ')') {
+                List<Character> expr = new ArrayList<>();
+                while(stack.peek() != '(') {
+                    expr.add(stack.pop());
+                }
+                stack.pop();
+                stack.push(calculate(expr, stack.pop()));
+            } else if (e != ',') {
+                stack.push(e);
+            }
+        }
+
+        return stack.pop() == 't';
+    }
+
+    private Character calculate(List<Character> expr, Character logic) {
+        if (logic == '!') {
+            return expr.get(0) == 'f' ? 't' : 'f';
+        } else if (logic == '&') {
+            for(Character c : expr) {
+                if (c == 'f') {
+                    return 'f';
+                }
+            }
+            return 't';
+        } else {
+            for(Character c : expr) {
+                if (c == 't') {
+                    return 't';
+                }
+            }
+            return 'f';
+        }
     }
 }
 // @lc code=end

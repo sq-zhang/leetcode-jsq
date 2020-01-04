@@ -52,7 +52,14 @@
 // @lc code=start
 class Solution {
     public int longestSubsequence(int[] arr, int difference) {
-        
+        int res = 1;
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int n : arr) {
+            int count = map.getOrDefault(n - difference, 0) + 1;
+            res = Math.max(res, count);
+            map.put(n, count);
+        }
+        return res;
     }
 }
 // @lc code=end
