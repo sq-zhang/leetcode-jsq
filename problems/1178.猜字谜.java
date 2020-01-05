@@ -62,7 +62,30 @@
 // @lc code=start
 class Solution {
     public List<Integer> findNumOfValidWords(String[] words, String[] puzzles) {
-        
+        List<Integer> res = new ArrayList<>();
+        Map<Integer, Integer> wordsMap = new HashMap<>();
+        for(String word : words) {
+            int mark = 0;
+            for(char c : word.toCharArray()) {
+                mark |= 1 << ('z' - c);
+            }
+            wordsMap.put(mark, wordsMap.getOrDefault(mark, 0) + 1);
+        }
+
+        for(String puzzle : puzzles) {
+            int mark = 0, count = 0;
+            for(char p : puzzle.toCharArray()) {
+                mark |= 1 << ('z' - p);
+            }
+            for(int m = mark; m > 0;m = (m - 1) & mark) {
+                if ((m | (1 << ('z' - puzzle.charAt(0)))) == m && wordsMap.containsKey(m)) {
+                    count += wordsMap.get(m);
+                }
+            }
+            res.add(count);
+        }
+
+        return res;
     }
 }
 // @lc code=end

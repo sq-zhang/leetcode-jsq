@@ -63,7 +63,30 @@
  * }
  */
 class Solution {
+    private StringBuilder res = new StringBuilder();
     public String tree2str(TreeNode t) {
+        preOrder(t);
+        return res.toString();
+    }
+
+    private void preOrder(TreeNode t) {
+        if (t == null) {
+            return;
+        }
+        res.append(t.val);
+        if (t.left != null) {
+            res.append("(");
+            preOrder(t.left);
+            res.append(")");
+        }
+        if (t.right != null) {
+            if (t.left == null) {
+                res.append("()");
+            }
+            res.append("(");
+            preOrder(t.right);
+            res.append(")");
+        }
         
     }
 }

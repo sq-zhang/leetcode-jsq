@@ -53,7 +53,17 @@
 // @lc code=start
 class Solution {
     public int movesToMakeZigzag(int[] nums) {
-        
+        int res1 = 0, res2 = 0;
+        for(int i = 0;i < nums.length;i++) {
+            int d1 = (i > 0 && nums[i] >= nums[i - 1]) ? nums[i] - nums[i - 1] + 1 : 0;
+            int d2 = (i < nums.length - 1 && nums[i] >= nums[i + 1]) ? nums[i] - nums[i + 1] + 1 : 0;
+            if (i % 2 == 0) {
+                res1 += Math.max(d1, d2);
+            } else {
+                res2 += Math.max(d1, d2);
+            }
+        }
+        return Math.min(res1, res2);
     }
 }
 // @lc code=end

@@ -69,7 +69,27 @@
 // @lc code=start
 class Solution {
     public String minRemoveToMakeValid(String s) {
-        
+        Stack<Integer> stack = new Stack<>();
+        boolean[] invalid = new boolean[s.length()]; 
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '(') {
+                stack.push(i);
+                invalid[i] = true;
+            } else if (s.charAt(i) == ')') {
+                if (stack.isEmpty()) {
+                    invalid[i] = true;
+                } else {
+                    invalid[stack.pop()] = false;
+                }
+            }
+        }
+        for (int i = 0; i < s.length(); i++) {
+            if (!invalid[i]) {
+                res.append(s.charAt(i));
+            }
+        }
+        return res.toString();
     }
 }
 // @lc code=end
