@@ -33,7 +33,7 @@
  * 解释: 小偷一晚能够盗取的最高金额 = 3 + 3 + 1 = 7.
  * 
  * 示例 2:
- * 
+ *  
  * 输入: [3,4,5,1,3,null,1]
  * 
  * 3
@@ -60,7 +60,19 @@
  */
 class Solution {
     public int rob(TreeNode root) {
-        
+        int[] res = dp(root);
+        return Math.max(res[0], res[1]);
+    }
+
+    private int[] dp(TreeNode root) {
+        if (root == null) {
+            return new int[]{0, 0};
+        }
+        int[] left = dp(root.left);
+        int[] right = dp(root.right);
+        int rob = root.val + left[0] + right[0];
+        int notRob = Math.max(left[0], left[1]) + Math.max(right[0], right[1]);
+        return new int[] {notRob, rob};
     }
 }
 // @lc code=end

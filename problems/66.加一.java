@@ -38,7 +38,18 @@
 // @lc code=start
 class Solution {
     public int[] plusOne(int[] digits) {
-        
+        int i = digits.length - 1, flag = 1;
+        while(i >= 0 && flag > 0) {
+            int n = digits[i] + flag;
+            digits[i--] = n % 10;
+            flag = n / 10;
+        }
+        if (flag > 0) {
+            int[] res = new int[digits.length + 1];
+            res[0] = 1;
+            return res;
+        }
+        return digits;
     }
 }
 // @lc code=end

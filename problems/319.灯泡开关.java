@@ -35,7 +35,20 @@
 // @lc code=start
 class Solution {
     public int bulbSwitch(int n) {
-        
+        // int[] nums = new int[n + 1];
+        // for(int i = 1;i <= n;i++) {
+        //     for(int j = i; j <= n; j += i) {
+        //         nums[j]++;
+        //     }
+        // }
+        // int res = 0;
+        // for(int i = 1;i <= n;i++) {
+        //     if (nums[i] % 2 == 1) {
+        //         res++;
+        //     }
+        // }
+        // return res;
+        return (int)Math.sqrt(n);
     }
 }
 // @lc code=end
