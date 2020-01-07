@@ -33,7 +33,35 @@
 // @lc code=start
 class Solution {
     public int maxEnvelopes(int[][] envelopes) {
-        
+        int n = envelopes.length;
+        Arrays.sort(envelopes, new Comparator<int[]>() {
+            public int compare(int[] a, int[] b) {
+                return a[0] == b[0] ? b[1] - a[1] : a[0] - b[0];
+            }
+        });
+        int[] height = new int[n];
+        for(int i = 0;i < n;i++) {
+            height[i] = envelopes[i][1];
+        }
+        int res = 0;
+        int[] top = new int[n];
+        for(int i = 0;i < n;i++) {
+            int num = height[i];
+            int l = 0, r = res;
+            while(l < r) {
+                int mid = (l + r) / 2;
+                if (top[mid] >= num) {
+                    r = mid;
+                } else {
+                    l = mid + 1;
+                }
+            }
+            if (l == res) {
+                res++;
+            }
+            top[l] = num;
+        }
+        return res;
     }
 }
 // @lc code=end

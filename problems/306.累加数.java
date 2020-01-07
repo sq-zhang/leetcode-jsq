@@ -42,7 +42,36 @@
 // @lc code=start
 class Solution {
     public boolean isAdditiveNumber(String num) {
-        
+        return dfs(num, 0, 0, 0, 0);
+    }
+
+    private boolean dfs(String num, long presum, long prenum, int i, int k) {
+        if (k > 2 && i >= num.length()) {
+            return true;
+        }
+        for(int len = 1;len + i <= num.length();len++) {
+            long pre = isSum(presum, num, i, i + len - 1, k);
+            if (pre >= 0) {
+                if (dfs(num, pre + prenum, pre, i + len, k + 1)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private long isSum(long sum, String num, int l, int h, int k) {
+        if (num.charAt(l) == '0' && l < h) {
+            return -1;
+        }
+        long res = 0;
+        while(l <= h) {
+            res = res * 10 + num.charAt(l++) - '0';
+        }
+        if (k < 2) {
+            return res;
+        }
+        return res == sum ? res : -1;
     }
 }
 // @lc code=end

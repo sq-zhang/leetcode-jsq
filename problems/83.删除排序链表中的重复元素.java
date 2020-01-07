@@ -39,7 +39,17 @@
  */
 class Solution {
     public ListNode deleteDuplicates(ListNode head) {
-        
+        ListNode res = new ListNode(Integer.MIN_VALUE);
+        ListNode cur = res;
+        while(head != null) {
+            if (cur.val != head.val) {
+                cur.next = head;
+                cur = cur.next;
+            }
+            head = head.next;
+        }
+        cur.next = null;
+        return res.next;
     }
 }
 // @lc code=end
