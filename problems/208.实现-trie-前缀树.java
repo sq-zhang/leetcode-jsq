@@ -38,24 +38,50 @@
 // @lc code=start
 class Trie {
 
+    class Node {
+        Node[] next = new Node[26];
+        boolean isWord = false;
+    }
+
+    private Node root;
+
     /** Initialize your data structure here. */
     public Trie() {
-        
+        root = new Node();
     }
     
     /** Inserts a word into the trie. */
     public void insert(String word) {
-        
+        Node cur = root;
+        for(char c : word.toCharArray()) {
+            Node next = cur.next[c - 'a'];
+            if (next == null) {
+                cur.next[c - 'a'] = new Node();
+            }
+            cur = cur.next[c - 'a'];
+        }
+        cur.isWord = true;
     }
     
     /** Returns if the word is in the trie. */
     public boolean search(String word) {
-        
+        return match(word, root, 0, false);
+    }
+
+    private boolean match(String word, Node node, int start, boolean prefix) {
+        if (start == word.length()) {
+            return prefix || node.isWord;
+        }
+        char w = word.charAt(start);
+        if (node.next[w - 'a'] == null) {
+            return false;
+        }
+        return match(word, node.next[w - 'a'], start + 1, prefix);
     }
     
     /** Returns if there is any word in the trie that starts with the given prefix. */
     public boolean startsWith(String prefix) {
-        
+        return match(prefix, root, 0, true);
     }
 }
 

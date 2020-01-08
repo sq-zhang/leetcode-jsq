@@ -41,19 +41,54 @@
 // @lc code=start
 class WordDictionary {
 
+    class Node {
+        Node[] next = new Node[26];
+        boolean isWord = false;
+    }
+
+    private Node root;
+
     /** Initialize your data structure here. */
     public WordDictionary() {
-        
+        root = new Node();
     }
     
     /** Adds a word into the data structure. */
     public void addWord(String word) {
-        
+        Node cur = root;
+        for(char w : word.toCharArray()) {
+            Node next = cur.next[w - 'a'];
+            if (next == null) {
+                cur.next[w - 'a'] = new Node();
+            }
+            cur = cur.next[w - 'a'];
+        }
+        cur.isWord = true;
     }
     
     /** Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. */
     public boolean search(String word) {
-        
+        return match(word, root, 0);
+    }
+
+    private boolean match(String word, Node node, int start) {
+        if (start == word.length()) {
+            return node.isWord;
+        }
+        char w = word.charAt(start);
+        if (w == '.') {
+            for(int i = 0;i < 26;i++) {
+                if (node.next[i] != null && match(word, node.next[i], start + 1)) {
+                    return true;
+                }
+            }
+            return false;
+        } else {
+            if (node.next[w - 'a'] == null) {
+                return false;
+            }
+            return match(word, node.next[w - 'a'], start + 1);
+        }
     }
 }
 

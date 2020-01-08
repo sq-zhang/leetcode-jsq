@@ -67,7 +67,23 @@
 // @lc code=start
 class Solution {
     public int numberOfArithmeticSlices(int[] A) {
-        
+        int res = 0;
+        Map<Integer, Integer>[] map = new Map[A.length];
+        for(int i = 0;i < A.length;i++) {
+            map[i] = new HashMap<>(i);
+            for(int j = 0;j < i;j++) {
+                long d = (long)A[i] - (long)A[j];
+                if (d < Integer.MIN_VALUE || d > Integer.MAX_VALUE) {
+                    continue;
+                }
+                int diff = (int)d;
+                int cur = map[j].getOrDefault(diff, 0);
+                int last = map[i].getOrDefault(diff, 0);
+                map[i].put(diff, cur + last + 1);
+                res += cur;
+            }
+        }
+        return res;
     }
 }
 // @lc code=end
