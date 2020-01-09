@@ -67,7 +67,31 @@
 // @lc code=start
 class Solution {
     public int compareVersion(String version1, String version2) {
-        
+        String[] v1 = version1.split("\\.");
+        String[] v2 = version2.split("\\.");
+        int i = 0, j = 0;
+        while(i < v1.length || j < v2.length) {
+            if (i >= v1.length) {
+                if (Integer.valueOf(v2[j]) > 0) {
+                    return -1;
+                }
+            } else if (j >= v2.length) {
+                if (Integer.valueOf(v1[i]) > 0) {
+                    return 1;
+                }
+            } else {
+                Integer num1 = Integer.valueOf(v1[i]);
+                Integer num2 = Integer.valueOf(v2[j]);
+                if (num1 > num2) {
+                    return 1;
+                } else if (num1 < num2) {
+                    return -1;
+                }
+            }
+            i++;
+            j++;
+        }
+        return 0;
     }
 }
 // @lc code=end
