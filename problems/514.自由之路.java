@@ -57,8 +57,63 @@
 // @lc code=start
 class Solution {
     public int findRotateSteps(String ring, String key) {
+        char[] sring = ring.toCharArray();
+        char[] skey = key.toCharArray();
+        int n = ring.length(), m = key.length();
+        int[][] dp = new int[m][n];
+        for(int i = 0 ; i < dp.length ; i++){
+            Arrays.fill(dp[i], Integer.MAX_VALUE);
+        }
         
+        int res = Integer.MAX_VALUE;
+        for(int i = 0;i < m;i++) {
+            for(int j = 0;j < n;j++){
+                if(skey[i] == sring[j]){
+                    if(i == 0) {
+                        dp[i][j] = Math.min(j, n - j);
+                        continue;
+                    }
+                    for(int k = 0 ; k < n ; k++){
+                        if(dp[i - 1][k] != Integer.MAX_VALUE){
+                            dp[i][j] = Math.min(dp[i][j], dp[i - 1][k] + Math.min(Math.abs(j - k), n - Math.abs(j - k)));
+                        }
+                    }
+                
+                    if(i == m - 1) {
+                        res = Math.min(res, dp[i][j]);
+                    }
+                }
+            }
+        }
+        return res + m;
     }
 }
+
+// DFS Solution
+// class Solution {
+//     public int findRotateSteps(String ring, String key) {
+//         char[] ringArr = ring.toCharArray();
+//         char[] keyArr = key.toCharArray();
+        
+//         return dfs(ringArr, keyArr, 0, 0, new int[ringArr.length][keyArr.length]);
+//     }
+//     private  int dfs(char[] ring, char[] target, int targetIndex, int ringIndex, int[][] memo){
+//         if(targetIndex == target.length)    return 0;
+        
+//         if(memo[ringIndex][targetIndex] != 0)   return memo[ringIndex][targetIndex];
+        
+//         int min = Integer.MAX_VALUE;
+//         for(int i = 0;i < ring.length;i++){
+//             if(ring[i] != target[targetIndex])  continue;
+            
+//             int dif = Math.abs(i - ringIndex);
+//             int distance =  1 + Math.min(dif, ring.length - dif) + dfs(ring, target, targetIndex + 1, i, memo);
+//             min = Math.min(min, distance);            
+//         }
+        
+//         memo[ringIndex][targetIndex] = min;
+//         return min;
+//     }
+// }
 // @lc code=end
 

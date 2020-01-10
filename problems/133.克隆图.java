@@ -58,7 +58,25 @@ class Node {
 */
 class Solution {
     public Node cloneGraph(Node node) {
-        
+        if (node == null) {
+            return null;
+        }
+        Map<Node, Node> maps = new HashMap<>();
+        Node res = new Node(node.val);
+        maps.put(node, res);
+        Queue<Node> q = new LinkedList<>();
+        q.offer(node);
+        while(!q.isEmpty()) {
+            Node cur = q.poll();
+            for(Node n : cur.neighbors) {
+                if (!maps.containsKey(n)) {
+                    maps.put(n, new Node(n.val));
+                    q.offer(n);
+                }
+                maps.get(cur).neighbors.add(maps.get(n));
+            }
+        }
+        return res;
     }
 }
 // @lc code=end

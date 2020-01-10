@@ -34,7 +34,18 @@
 // @lc code=start
 class Solution {
     public boolean canConstruct(String ransomNote, String magazine) {
-        
+        if (magazine.length() < ransomNote.length()) {
+            return false;
+        }
+        int[] chars = new int[26];
+        for(char c : ransomNote.toCharArray()) {
+            int index = magazine.indexOf(c, chars[c - 'a']);
+            if (index == -1) {
+                return false;
+            }
+            chars[c - 'a'] = index + 1;
+        }
+        return true;
     }
 }
 // @lc code=end
