@@ -62,8 +62,29 @@
 // @lc code=start
 class Solution {
     public void rotate(int[][] matrix) {
-        
+        int n = matrix.length;
+        if (n == 0) {
+            return;
+        }
+
+        for(int i = 0;i < n;i++) {
+            for(int j = 0;j < n / 2;j++) {
+                int t = matrix[i][j];
+                matrix[i][j] = matrix[i][n - 1 - j];
+                matrix[i][n - 1 - j] = t;
+            }
+        }
+
+        for(int i = 0;i < n;i++) {
+            for(int j = 0;j < n - 1 - i;j++) {
+                int t = matrix[i][j];
+                matrix[i][j] = matrix[n - 1 - j][n - 1 - i];
+                matrix[n - 1 - j][n - 1 - i] = t;
+            }
+        }
+
     }
+
 }
 // @lc code=end
 

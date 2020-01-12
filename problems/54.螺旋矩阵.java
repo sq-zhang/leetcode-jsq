@@ -42,7 +42,53 @@
 // @lc code=start
 class Solution {
     public List<Integer> spiralOrder(int[][] matrix) {
-        
+        List<Integer> res = new ArrayList<>();
+        int m = matrix.length;
+        if (m == 0) {
+            return res;
+        }
+        int n = matrix[0].length;
+        int k = 0, count = m * n, i = 0, j = 0;
+        int r = n - 1, l = 0, u = 0, d = m - 1;
+        char dir = 'R';
+        while(k++ < count) {
+            res.add(matrix[i][j]);
+            if (dir == 'R') {
+                if (j == r) {
+                    dir = 'D';
+                    u++;
+                    i++;
+                } else {
+                    j++;
+                }
+            } else if (dir == 'L') {
+                if (j == l) {
+                    dir = 'U';
+                    d--;
+                    i--;
+                } else {
+                    j--;
+                }
+            } else if (dir == 'U') {
+                if (i == u) {
+                    dir = 'R';
+                    l++;
+                    j++;
+                } else {
+                    i--;
+                }
+            } else if (dir == 'D') {
+                if (i == d) {
+                    dir = 'L';
+                    r--;
+                    j--;
+                } else {
+                    i++;
+                }
+            }
+        }
+
+        return res;
     }
 }
 // @lc code=end

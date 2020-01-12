@@ -49,7 +49,31 @@
 // @lc code=start
 class Solution {
     public int findRadius(int[] houses, int[] heaters) {
-        
+        Arrays.sort(houses);
+        Arrays.sort(heaters);
+        int res = Integer.MIN_VALUE;
+        for(int h : houses) {
+            int l = 0, r = heaters.length - 1;
+            while (l < r) {
+                int mid = (l + r) >>> 1;
+                if (h > heaters[mid]) {
+                    l = mid + 1;
+
+                } else {
+                    r = mid;
+                }
+            }
+            int t = 0;
+            if (heaters[l] == h) {
+                t = 0;
+            } else if (l != 0) {
+                t = Math.min(Math.abs(heaters[l] - h), Math.abs(heaters[l - 1] - h));
+            } else {
+                t = Math.abs(heaters[l] - h);
+            }
+            res = Math.max(res, t);
+        }
+        return res;
     }
 }
 // @lc code=end

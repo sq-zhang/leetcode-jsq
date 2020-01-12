@@ -80,8 +80,22 @@
 // @lc code=start
 class Solution {
     public int compress(char[] chars) {
-        
+        int last = 0, k = 0;
+        for (int i = 0; i < chars.length; i++) {
+            if (i == chars.length - 1 || chars[i + 1] != chars[i]) {
+                chars[k++] = chars[last];
+                if (i > last) {
+                    for (char c: ("" + (i - last + 1)).toCharArray()) {
+                        chars[k++] = c;
+                    }
+                }
+                last = i + 1;
+            }
+        }
+
+        return k;
     }
+
 }
 // @lc code=end
 
