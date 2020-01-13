@@ -71,8 +71,23 @@
  * }
  */
 class Solution {
+    TreeNode cur;
     public TreeNode increasingBST(TreeNode root) {
-        
+        TreeNode res = new TreeNode(-1);
+        cur = res;
+        inorder(root);
+        return res.right;
+    }
+    
+    private void inorder(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        inorder(root.left);
+        root.left = null;
+        cur.right = root;
+        cur = root;
+        inorder(root.right);
     }
 }
 // @lc code=end

@@ -43,7 +43,33 @@
  */
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        
+        List<Integer> nums1 = getNums(l1);
+        List<Integer> nums2 = getNums(l2);
+        ListNode res = null;
+        int i = nums1.size() - 1, j = nums2.size() - 1, n = 0;
+        while(i >= 0 || j >= 0 || n > 0) {
+            if (i >= 0) {
+                n += nums1.get(i--);
+            }
+            if (j >= 0) {
+                n += nums2.get(j--);
+            }
+            ListNode cur = new ListNode(n % 10);
+            cur.next = res;
+            res = cur;
+            n /= 10;
+        }
+
+        return res;
+    }
+
+    List<Integer> getNums(ListNode l) {
+        List<Integer> nums = new ArrayList<>();
+        while(l != null) {
+            nums.add(l.val);
+            l = l.next;
+        }
+        return nums;
     }
 }
 // @lc code=end

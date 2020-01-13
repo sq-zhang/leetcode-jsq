@@ -45,7 +45,59 @@
 // @lc code=start
 class Solution {
     public int calculate(String s) {
-        
+        Stack<Integer> stack = new Stack();
+        for (char ch : s.toCharArray()) {
+            if (ch == ' ') continue;
+            if (ch == ')') {
+                int sum = 0;
+                while (stack.size() > 0 && stack.peek() != -11111111) {
+                    int num = stack.pop();
+                    if (stack.size() > 0 && stack.peek() == -33333333) {
+                        sum -= num;
+                    } else {
+                        sum += num;
+                    }
+                    if (stack.peek() != -11111111) {
+                        stack.pop();
+                    }
+                }
+                if (stack.size() > 0 && stack.peek() == -11111111) {
+                    stack.pop();
+                }
+                stack.push(sum);
+            } else {
+                if (Character.isDigit(ch)) {
+                    if (stack.size() > 0 && stack.peek() >= 0) {
+                        stack.push(stack.pop() * 10 + (int)(ch - '0'));
+                    } else {
+                        stack.push((int)(ch - '0'));
+                    }
+                } else if (ch == '+') {
+                    stack.push(-22222222);
+                } else if (ch == '-'){
+                    stack.push(-33333333);
+                } else {
+                    stack.push(-11111111);
+                }
+            }
+        }
+        if (stack.size() == 1) {
+            return stack.peek();
+        }
+
+        int res = 0;
+        while (stack.size() > 0) {
+            int num = stack.pop();
+            if (stack.size() > 0 && stack.peek() == -33333333) {
+                res -= num;
+            } else {
+                res += num;
+            }
+            if (stack.size() > 0) {
+                stack.pop();
+            }
+        }
+        return res;
     }
 }
 // @lc code=end
