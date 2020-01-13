@@ -41,15 +41,121 @@
 
 // @lc code=start
 class WordFilter {
-
-    public WordFilter(String[] words) {
-        
+    class Node {
+        Node[] next = new Node[27];
+        int weight;
     }
-    
+
+    Node trie;
+    public WordFilter(String[] words) {
+        trie = new Node();
+        for (int w = 0; w < words.length; w++) {
+            String word = words[w] + "{";
+            for (int i = 0; i < word.length(); ++i) {
+                Node cur = trie;
+                cur.weight = w;
+                for (int j = i; j < 2 * word.length() - 1; j++) {
+                    int k = word.charAt(j % word.length()) - 'a';
+                    if (cur.next[k] == null)
+                        cur.next[k] = new Node();
+                    cur = cur.next[k];
+                    cur.weight = w;
+                }
+            }
+        }
+    }
     public int f(String prefix, String suffix) {
-        
+        Node cur = trie;
+        for (char c: (suffix + '{' + prefix).toCharArray()) {
+            if (cur.next[c - 'a'] == null) {
+                return -1;
+            }
+            cur = cur.next[c - 'a'];
+        }
+        return cur.weight;
     }
 }
+
+// class WordFilter {
+
+//     class Node {
+//         Node[] next = new Node[26];
+//         boolean isWord = false;
+//         Set<Integer> index = new HashSet<>();
+//     }
+
+//     private Node preRoot;
+//     private Node sufRoot;
+
+//     public WordFilter(String[] words) {
+//         preRoot = new Node();
+//         sufRoot = new Node();
+//         for(int i = 0;i < words.length;i++) {
+//             insert(preRoot, words[i], i);
+//             insert(sufRoot, new StringBuilder(words[i]).reverse().toString(), i);
+//         }
+//     }
+    
+//     public void insert(Node root, String word, int index) {
+//         Node cur = root;
+//         cur.index.add(index);
+//         for(char c : word.toCharArray()) {
+//             Node next = cur.next[c - 'a'];
+//             if (next == null) {
+//                 cur.next[c - 'a'] = new Node();
+//             }
+//             cur = cur.next[c - 'a'];
+//             cur.index.add(index);
+//         }
+        
+//         cur.isWord = true;
+//     }
+    
+//     public int f(String prefix, String suffix) {
+//         Set<Integer> preMatch = startsWith(prefix);
+//         System.out.println("pre: " + preMatch);
+        
+//         if (preMatch == null) {
+//             return -1;
+//         }
+
+//         Set<Integer> sufMatch = endsWith(suffix);
+//         System.out.println("suf: " + sufMatch);
+        
+//         if (sufMatch == null) {
+//             return -1;
+//         }
+
+//         sufMatch.retainAll(preMatch);
+//         if (sufMatch.size() == 0) {
+//             return -1;
+//         }
+//         System.out.println("ans: " + sufMatch);
+
+//         return Collections.max(sufMatch);
+//     }
+
+//     private Set<Integer> match(String word, Node node, int start) {
+//         if (start == word.length()) {
+//             return node.index;
+//         }
+//         char w = word.charAt(start);
+//         if (node.next[w - 'a'] == null) {
+//             return null;
+//         }
+//         return match(word, node.next[w - 'a'], start + 1);
+//     }
+    
+//     public Set<Integer> startsWith(String prefix) {
+//         return match(prefix, preRoot, 0);
+//     }
+
+//     public Set<Integer> endsWith(String suffix) {
+//         String suff = new StringBuilder(suffix).reverse().toString();
+//         return match(suff, sufRoot, 0);
+//     }
+
+// }
 
 /**
  * Your WordFilter object will be instantiated and called as such:

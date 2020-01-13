@@ -36,9 +36,68 @@
 
 // @lc code=start
 class Solution {
-    public List<List<Integer>> fourSum(int[] nums, int target) {
-        
+    public List<List<Integer>> fourSum(int[] nums,int target){
+        List<List<Integer>> res = new ArrayList<>();
+        if(nums == null || nums.length < 4){
+            return res;
+        }
+
+        Arrays.sort(nums);
+
+        int n = nums.length;
+        for(int k = 0;k < n - 3;k++){
+            if(k > 0 && nums[k] == nums[k - 1]){
+                continue;
+            }
+
+            int min1 = nums[k] + nums[k + 1] + nums[k + 2] + nums[k + 3];
+            if(min1 > target){
+                break;
+            }
+
+            int max1 = nums[k] + nums[n - 1] + nums[n - 2] + nums[n - 3];
+            if(max1 < target){
+                continue;
+            }
+            
+            for(int i = k + 1;i < n - 2;i++){
+                if(i > k + 1 && nums[i] == nums[i - 1]){
+                    continue;
+                }
+                int j = i + 1, h = n - 1;
+                int min = nums[k] + nums[i] + nums[j] + nums[j + 1];
+                if(min > target){
+                    continue;
+                }
+                
+                int max = nums[k] + nums[i] + nums[h] + nums[h - 1];
+                if(max < target){
+                    continue;
+                }
+
+                while (j < h){
+                    int curr = nums[k] + nums[i] + nums[j] + nums[h];
+                    if(curr == target){
+                        res.add(Arrays.asList(nums[k],nums[i],nums[j],nums[h]));
+                        j++;
+                        while(j < h && nums[j] == nums[j - 1]){
+                            j++;
+                        }
+                        h--;
+                        while(j < h && i < h && nums[h] == nums[h + 1]){
+                            h--;
+                        }
+                    } else if (curr > target){
+                        h--;
+                    } else {
+                       j++;
+                    }
+                }
+            }
+        }
+        return res;
     }
+
 }
 // @lc code=end
 
