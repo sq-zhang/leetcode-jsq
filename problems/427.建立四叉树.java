@@ -70,7 +70,34 @@ class Node {
 */
 class Solution {
     public Node construct(int[][] grid) {
-        
+        return constructFourh(grid, 0, grid.length, 0, grid[0].length);
+    }
+
+    private Node constructFourh(int[][] grid, int s1, int e1, int s2, int e2) {
+        boolean same = true;
+        int n = grid[s1][s2];
+        for(int i = s1;i < e1;i++) {
+            for(int j = s2;j < e2;j++) {
+                if (grid[i][j] != n) {
+                    same = false;
+                    break;
+                }
+            }
+        }
+
+        Node node = new Node();
+        if (same) {
+            node.val = n == 1 ? true : false;
+            node.isLeaf = true;
+        } else {
+            node.isLeaf = false;
+            int midRow = (s1 + e1) / 2, midColumn = (s2 + e2) / 2;
+            node.topLeft = constructFourh(grid, s1, midRow, s2, midColumn);
+            node.topRight = constructFourh(grid, s1, midRow, midColumn, e2);
+            node.bottomLeft = constructFourh(grid, midRow, e1, s2, midColumn);
+            node.bottomRight = constructFourh(grid, midRow, e1, midColumn, e2);
+        }
+        return node;
     }
 }
 // @lc code=end

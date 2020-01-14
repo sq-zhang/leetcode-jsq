@@ -86,7 +86,29 @@
 // @lc code=start
 class Solution {
     public int projectionArea(int[][] grid) {
-        
+        int n = grid.length;
+        if (n == 0) {
+            return 0;
+        }
+        int[] nums = new int[n];
+        int res = 0;
+        for(int i = 0;i < n;i++) {
+            int rowMax = 0;
+            for(int j = 0;j < n;j++) {
+                rowMax = Math.max(rowMax, grid[i][j]);
+                nums[j] = Math.max(nums[j], grid[i][j]);
+                if (grid[i][j] > 0) {
+                    res++;
+                }
+            }
+            res += rowMax;
+        }
+
+        for(int num : nums) {
+            res += num;
+        }
+
+        return res;
     }
 }
 // @lc code=end

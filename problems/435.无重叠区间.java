@@ -57,7 +57,26 @@
 // @lc code=start
 class Solution {
     public int eraseOverlapIntervals(int[][] intervals) {
-        
+        int n = intervals.length;
+        if (n == 0) {
+            return 0;
+        }
+
+        Arrays.sort(intervals, new Comparator<int[]>() {
+            public int compare(int[] n1, int[] n2) {
+                return n1[1] - n2[1];
+            }
+        });
+
+        int res = 1, last = intervals[0][1];
+        for(int i = 0;i < n;i++) {
+            if (intervals[i][0] >= last) {
+                res++;
+                last = intervals[i][1];
+            }
+        }
+
+        return n - res;
     }
 }
 // @lc code=end

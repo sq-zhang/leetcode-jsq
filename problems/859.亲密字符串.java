@@ -63,7 +63,36 @@
 // @lc code=start
 class Solution {
     public boolean buddyStrings(String A, String B) {
-        
+        if (A.length() != B.length()) {
+            return false;
+        }
+        Set<Character> chars = new HashSet<>();
+        Character lastA = null, lastB = null;
+        boolean duplicate = false;
+        int k = 0;
+        for(int i = 0;i < A.length();i++) {
+            if (chars.contains(A.charAt(i))) {
+                duplicate = true;
+            } else {
+                chars.add(A.charAt(i));
+            }
+
+            if (A.charAt(i) != B.charAt(i)) {
+                if (k == 0) {
+                    lastA = A.charAt(i);
+                    lastB = B.charAt(i);
+                } else if (k == 1) {
+                    if (lastA != B.charAt(i) || lastB != A.charAt(i)) {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+                k++;
+            }
+        }
+
+        return (k == 0 && duplicate) || k == 2;
     }
 }
 // @lc code=end

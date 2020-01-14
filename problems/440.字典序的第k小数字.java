@@ -35,7 +35,26 @@
 // @lc code=start
 class Solution {
     public int findKthNumber(int n, int k) {
-        
+        int prefix = 1, curPos = 1;
+        while(curPos < k) {
+            long count = getCount(prefix, n);
+            if (curPos + count > k) {
+                prefix *= 10;
+                curPos++;
+            } else {
+                prefix++;
+                curPos += count;
+            }
+        }
+        return prefix;
+    }
+
+    private long getCount(int prefix, int n) {
+        long count = 0;
+        for(long i = prefix, j = prefix + 1;i <= n;i *= 10, j*= 10) {
+            count += Math.min(n + 1, j) - i;
+        }
+        return count;
     }
 }
 // @lc code=end
