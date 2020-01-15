@@ -31,7 +31,26 @@
 // @lc code=start
 class Solution {
     public int countRangeSum(int[] nums, int lower, int upper) {
-        
+        int n = nums.length;
+        if (n == 0) {
+            return 0;
+        }
+        long[] sum = new long[n + 1];
+        for(int i = 1;i <= n;i++) {
+            sum[i] = nums[i - 1] + sum[i - 1];
+        }
+
+        int res = 0;
+        for(int i = 0;i < n;i++) {
+            for(int j = i + 1;j <= n;j++) {
+                long s = sum[j] - sum[i];
+                if (s >= lower && s <= upper) {
+                    res++;
+                }
+            }
+        }
+
+        return res;
     }
 }
 // @lc code=end

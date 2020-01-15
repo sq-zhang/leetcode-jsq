@@ -59,7 +59,31 @@
 // @lc code=start
 class Solution {
     public String toGoatLatin(String S) {
-        
+        StringBuilder res = new StringBuilder();
+        String[] word = S.split(" ");
+        int count = 1;
+        for(String w : word) {
+            if (isVowel(w.charAt(0))) {
+                res.append(w);
+            } else {
+                res.append(w.substring(1)).append(w.substring(0, 1));
+            }
+            res.append("ma");
+            for(int i = 0;i < count;i++) {
+                res.append("a");
+            }
+            if (count != word.length) {
+                res.append(" ");
+            }
+            count++;
+        }
+
+        return res.toString();
+    }
+
+    private boolean isVowel(char c) {
+        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || 
+            c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U';
     }
 }
 // @lc code=end

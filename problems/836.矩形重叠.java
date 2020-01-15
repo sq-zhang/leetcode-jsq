@@ -43,7 +43,14 @@
 // @lc code=start
 class Solution {
     public boolean isRectangleOverlap(int[] rec1, int[] rec2) {
-        
+        return !(outer(rec1[0], rec1[2], rec2[0], rec2[2]) 
+            || outer(rec2[0], rec2[2], rec1[0], rec1[2])
+            || outer(rec1[1], rec1[3], rec2[1], rec2[3])
+            || outer(rec2[1], rec2[3], rec1[1], rec1[3]));
+    }
+
+    private boolean outer(int x11, int x12, int x21, int x22) {
+        return (x11 <= x21 && x12 <= x21) || (x11 >= x22 && x12 >= x22);
     }
 }
 // @lc code=end

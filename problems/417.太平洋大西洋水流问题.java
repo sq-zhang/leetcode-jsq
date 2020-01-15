@@ -57,7 +57,56 @@
 // @lc code=start
 class Solution {
     public List<List<Integer>> pacificAtlantic(int[][] matrix) {
-        
+        List<List<Integer>> res = new ArrayList<>();
+        if (matrix.length == 0 || matrix[0].length == 0) {
+            return res;
+        }
+        int m = matrix.length, n = matrix[0].length;
+        boolean[][] visit1 = new boolean[m][n], visit2 = new boolean[m][n];
+        for(int i = 0;i < m;i++) {
+            visit1[i][0] = true;
+            dfs(matrix, visit1, i, 0, m, n);
+        }
+        for(int j = 0;j < n;j++) {
+            visit1[0][j] = true;
+            dfs(matrix, visit1, 0, j, m, n);
+        }
+        for(int i = 0;i < m;i++) {
+            visit2[i][n - 1] = true;
+            dfs(matrix, visit2, i, n - 1, m, n);
+        }
+        for(int j = 0;j < n;j++) {
+            visit2[m - 1][j] = true;
+            dfs(matrix, visit2, m - 1, j, m, n);
+        }
+        for(int i = 0;i < m;i++) {
+            for(int j = 0;j < n;j++) {
+                if (visit1[i][j] && visit2[i][j]) {
+                    res.add(Arrays.asList(i, j));
+                }
+            }
+        }
+
+        return res;
+    }
+
+    private void dfs(int[][] matrix, boolean[][] visit, int i, int j, int m, int n) {
+        if(i > 0 && !visit[i - 1][j] && matrix[i - 1][j] >= matrix[i][j]){
+            visit[i - 1][j] = true;
+            dfs(matrix, visit, i - 1, j, m, n);
+        }
+        if(j > 0 && !visit[i][j - 1] && matrix[i][j - 1] >= matrix[i][j]){
+            visit[i][j - 1] = true;
+            dfs(matrix, visit, i, j - 1, m, n);
+        }
+        if(i < m - 1 && !visit[i + 1][j] && matrix[i + 1][j] >= matrix[i][j]){
+            visit[i + 1][j] = true;
+            dfs(matrix, visit, i + 1, j, m, n);
+        }
+        if(j < n - 1 && !visit[i][j + 1] && matrix[i][j + 1] >= matrix[i][j]){
+            visit[i][j + 1] = true;
+            dfs(matrix, visit, i, j + 1, m, n);
+        }
     }
 }
 // @lc code=end
