@@ -40,7 +40,33 @@
 // @lc code=start
 class Solution {
     public int maxCoins(int[] nums) {
-        
+        if (nums.length == 0) {
+            return 0;
+        }
+        nums = appendWithBorder(nums);
+
+        int n = nums.length;
+        int[][] dp = new int[n][n];
+        for (int i = n - 2; i > -1; i--) {
+            for (int j = i + 2; j < n; j++) {
+                int max = 0, muitij = nums[i] * nums[j];
+                for (int k = i + 1; k < j; k++) {
+                    max = Math.max(max, dp[i][k] + dp[k][j] + nums[k] * muitij);
+                }
+                dp[i][j] = max;
+            }
+        }
+        return dp[0][n - 1];
+    }
+
+    private int[] appendWithBorder(int[] nums) {
+        int[] res = new int[nums.length + 2];
+        res[0] = 1;
+        res[nums.length + 1] = 1;
+        for(int i = 0;i < nums.length;i++) {
+            res[i + 1] = nums[i];
+        }
+        return res;
     }
 }
 // @lc code=end

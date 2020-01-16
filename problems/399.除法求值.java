@@ -42,7 +42,48 @@
 // @lc code=start
 class Solution {
     public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
-        
+        if (equations.size() == 0 || equations.size() != values.length) {
+            return new double[0];
+        }
+
+        Map<String, Map<String, Double>> maps = new HashMap<>();
+        for(int i = 0;i < equations.size();i++) {
+            String a = equations.get(i).get(0), b = equations.get(i).get(1);
+            if (!maps.containsKey(a)) {
+                maps.put(a, new HashMap<String, Double>());
+            }
+            maps.get(a).put(b, values[i]);
+            if (!maps.containsKey(b)) {
+                maps.put(b, new HashMap<String, Double>());
+            }
+            maps.get(b).put(a, 1 / values[i]);
+        }
+
+        double[] res = new double[queries.size()];
+        for(int i = 0;i < queries.size();i++) {
+            res[i] = dfs(maps, queries.get(i).get(0), queries.get(i).get(1), new HashSet<String>());
+        }
+        return res;
+    }
+
+    private double dfs(Map<String, Map<String, Double>> maps, String a, String b, Set<String> visited) {
+        if (!maps.containsKey(a)) {
+            return -1.0;
+        }
+        if (maps.get(a).containsKey(b)) {
+            return maps.get(a).get(b);
+        }
+        visited.add(a);
+        for(String key : maps.get(a).keySet()) {
+            if (visited.contains(key)) {
+                continue;
+            }
+            double v = dfs(maps, key, b, visited);
+            if (v != -1.0) {
+                return v * maps.get(a).get(key);
+            }
+        }
+        return -1.0;
     }
 }
 // @lc code=end

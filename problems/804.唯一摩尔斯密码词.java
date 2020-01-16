@@ -35,7 +35,7 @@
  * "zen" -> "--...-."
  * "gig" -> "--...--."
  * "msg" -> "--...--."
- * 
+ *  
  * 共有 2 种不同翻译, "--...-." 和 "--...--.".
  * 
  * 
@@ -53,8 +53,22 @@
 
 // @lc code=start
 class Solution {
+    private String[] morse = new String[] {
+        ".-","-...","-.-.","-..",".","..-.","--.","....","..",".---",
+        "-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-",
+        "..-","...-",".--","-..-","-.--","--.."
+    };
+
     public int uniqueMorseRepresentations(String[] words) {
-        
+        Set<String> res = new HashSet<>();
+        for(String word : words) {
+            StringBuilder code = new StringBuilder();
+            for(char c : word.toCharArray()) {
+                code.append(morse[c - 'a']);
+            }
+            res.add(code.toString());
+        }
+        return res.size();
     }
 }
 // @lc code=end
