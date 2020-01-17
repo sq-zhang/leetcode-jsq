@@ -49,8 +49,48 @@
 // @lc code=start
 class Solution {
     public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
-        
+        dfs(image, sr, sc, image[sr][sc], newColor);
+        return image;
+    }
+
+    private void dfs(int[][] image, int i, int j, int oldColor, int newColor) {
+        int m = image.length, n = image[0].length;
+        if (i < 0 || i >= m || j < 0 || j >= n || image[i][j] != oldColor || image[i][j] == newColor) return;
+        image[i][j] = newColor;
+        dfs(image, i - 1, j, oldColor, newColor);
+        dfs(image, i + 1, j, oldColor, newColor);
+        dfs(image, i, j - 1, oldColor, newColor);
+        dfs(image, i, j + 1, oldColor, newColor);
     }
 }
+
+// class Solution {
+//     public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
+//         if (image.length == 0 || image[0].length == 0) {
+//             return image;
+//         }
+//         int m = image.length, n = image[0].length;
+//         int[][] dirs = {{0, 1}, {1, 0}, {-1, 0}, {0, -1}};
+//         int target = image[sr][sc];
+//         Queue<int[]> queue = new LinkedList<>();
+//         queue.add(new int[]{sr, sc});
+//         boolean[][] visited = new boolean[m][n];
+//         visited[sr][sc] = true;
+//         while(!queue.isEmpty()) {
+//             int[] point = queue.poll();
+//             visited[point[0]][point[1]] = true;
+//             image[point[0]][point[1]] = newColor; 
+//             for(int[] d : dirs) {
+//                 int nx = point[0] + d[0], ny = point[1] + d[1];
+//                 if (nx < 0 || nx >= m || ny < 0 || ny >= n || visited[nx][ny] || image[nx][ny] != target) {
+//                     continue;
+//                 }
+//                 queue.offer(new int[]{nx, ny});
+//             }
+//         }
+
+//         return image;
+//     }
+// }
 // @lc code=end
 

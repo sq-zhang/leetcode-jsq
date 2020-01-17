@@ -50,7 +50,18 @@
 // @lc code=start
 class Solution {
     public int dominantIndex(int[] nums) {
-        
+        int res = 0;
+        for(int i = 0;i < nums.length;i++) {
+            if (nums[i] > nums[res]) {
+                res = i;
+            }
+        }
+        for(int i = 0;i < nums.length;i++) {
+            if (i != res && nums[res] < 2 * nums[i]) {
+                return -1;
+            }
+        }
+        return res;
     }
 }
 // @lc code=end

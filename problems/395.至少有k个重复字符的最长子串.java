@@ -44,7 +44,41 @@
 // @lc code=start
 class Solution {
     public int longestSubstring(String s, int k) {
-        
+        int n = s.length();
+        if (n == 0 || k > n) {
+            return 0;
+        }
+        if (k < 2) {
+            return n;
+        }
+
+        return maxSub(s.toCharArray(), k, 0, n - 1);
+    }
+
+    private int maxSub(char[] chars, int k, int i, int j) {
+        if (j - i + 1 < k) {
+            return 0;
+        }
+        int[] counts = new int[26];
+        for(int l = i;l <= j;l++) {
+            counts[chars[l] - 'a']++;
+        }
+        while(j - i + 1 >= k && counts[chars[i] - 'a'] < k) {
+            i++;
+        }
+        while(j - i + 1 >= k && counts[chars[j] - 'a'] < k) {
+            j--;
+        }
+        if (j - i + 1 < k) {
+            return 0;
+        }
+        for(int l = i;l <= j;l++) {
+            if (counts[chars[l] - 'a'] < k) {
+                return Math.max(maxSub(chars, k, i, l - 1), maxSub(chars, k, l + 1, j));
+            }
+        }
+
+        return j - i + 1;
     }
 }
 // @lc code=end

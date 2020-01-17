@@ -48,7 +48,34 @@
 // @lc code=start
 class Solution {
     public List<String> addOperators(String num, int target) {
-        
+        List<String> res = new ArrayList<>();
+        if (num == null || num.length() == 0) {
+            return res;
+        }
+        dfs(num, target, "", 0, 0, 0, res);
+        return res;
+    }
+
+    private void dfs(String num, int target, String cur, int pos, long eval, long mult, List<String> res) {
+        if (pos == num.length()) {
+            if (eval == target) {
+                res.add(cur);
+            }
+            return;
+        }
+        for(int i = pos;i < num.length();i++) {
+            if (i != pos && num.charAt(pos) == '0') {
+                break;
+            }
+            long n = Long.parseLong(num.substring(pos, i + 1));
+            if (pos == 0) {
+                dfs(num, target, cur + n, i + 1, n, n, res);
+            } else {
+                dfs(num, target, cur + "+" + n, i + 1, eval + n, n, res);
+                dfs(num, target, cur + "-" + n, i + 1, eval - n, -n, res);
+                dfs(num, target, cur + "*" + n, i + 1, eval - mult + mult * n, mult * n, res);
+            }
+        }
     }
 }
 // @lc code=end

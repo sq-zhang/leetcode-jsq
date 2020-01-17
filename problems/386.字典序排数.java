@@ -26,7 +26,20 @@
 // @lc code=start
 class Solution {
     public List<Integer> lexicalOrder(int n) {
-        
+        List<Integer> res = new ArrayList<>();
+        inOrder(1, n, res);
+        return res;
+    }
+
+    private void inOrder(int prefix, int n, List<Integer> res) {
+        if (prefix > n) {
+            return;
+        }
+        res.add(prefix);
+        inOrder(prefix * 10, n, res);
+        if (prefix % 10 != 9) {
+            inOrder(prefix + 1, n, res);
+        }
     }
 }
 // @lc code=end
