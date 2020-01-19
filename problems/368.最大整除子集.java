@@ -37,7 +37,32 @@
 // @lc code=start
 class Solution {
     public List<Integer> largestDivisibleSubset(int[] nums) {
-        
+        if (nums == null || nums.length == 0) {
+            return Collections.emptyList();
+        }
+        Arrays.sort(nums);
+        int n = nums.length, max = 0, end = -1;
+        List<Integer> res = new ArrayList<>();
+        int[] dp = new int[n], last = new int[n];
+        Arrays.fill(dp, 1);
+        Arrays.fill(last, -1);
+        for(int i = 0;i < n;i++){
+            for(int j = 0;j < i;j++){
+                if(nums[i] % nums[j] == 0 && dp[i] <= dp[j]){
+                    dp[i] = dp[j] + 1;
+                    last[i] = j;
+                }
+            }
+            if(dp[i] > max){
+                max = dp[i];
+                end = i;
+            }
+        }
+        for(int i = end; i != -1;i = last[i]) {
+            res.add(nums[i]);
+        }
+        Collections.reverse(res);
+        return res;
     }
 }
 // @lc code=end

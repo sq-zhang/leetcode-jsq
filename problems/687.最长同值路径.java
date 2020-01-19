@@ -68,8 +68,27 @@
  * }
  */
 class Solution {
+    int res = 0;
     public int longestUnivaluePath(TreeNode root) {
-        
+        dfs(root);
+        return res;
+    }
+
+    private int dfs(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = dfs(root.left);
+        int right = dfs(root.right);
+        int curLeft = 0, curRight = 0;
+        if (root.left != null && root.left.val == root.val) {
+            curLeft += left + 1;
+        }
+        if (root.right != null && root.right.val == root.val) {
+            curRight += right + 1;
+        }
+        res = Math.max(res, curLeft + curRight);
+        return Math.max(curLeft, curRight);
     }
 }
 // @lc code=end
