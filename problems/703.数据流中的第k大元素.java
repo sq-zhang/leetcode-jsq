@@ -39,12 +39,26 @@
 // @lc code=start
 class KthLargest {
 
+    private PriorityQueue<Integer> q;
+    private int size;
+
     public KthLargest(int k, int[] nums) {
-        
+        q = new PriorityQueue<>(k);
+        size = k;
+        for(int i = 0;i < nums.length;i++) {
+            add(nums[i]);
+        }
     }
     
     public int add(int val) {
-        
+        if (q.size() < size) {
+            q.add(val);
+        } else if (q.peek() < val) {
+            q.poll();
+            q.add(val);
+        }
+
+        return q.peek();
     }
 }
 

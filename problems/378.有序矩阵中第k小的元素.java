@@ -37,7 +37,32 @@
 // @lc code=start
 class Solution {
     public int kthSmallest(int[][] matrix, int k) {
-        
+        int m = matrix.length, n = matrix[0].length;
+        int left = matrix[0][0], right = matrix[m - 1][n - 1];
+        while (left < right) {
+            int mid = (left + right) / 2;
+            int count = findNotBiggerThanMid(matrix, mid, m, n);
+            if (count < k) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        return right;
+    }
+
+    private int findNotBiggerThanMid(int[][] matrix, int mid, int m, int n) {
+        int i = m - 1, j = 0;
+        int count = 0;
+        while (i >= 0 && j < n) {
+            if (matrix[i][j] <= mid) {
+                count += i + 1;
+                j++;
+            } else {
+                i--;
+            }
+        }
+        return count;
     }
 }
 // @lc code=end
