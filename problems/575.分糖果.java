@@ -48,7 +48,11 @@
 // @lc code=start
 class Solution {
     public int distributeCandies(int[] candies) {
-        
+        Set<Integer> nums = new HashSet<>();
+        for(int n : candies) {
+            nums.add(n);
+        }
+        return Math.min(nums.size(), candies.length / 2);
     }
 }
 // @lc code=end

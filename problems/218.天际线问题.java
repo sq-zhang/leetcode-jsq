@@ -46,7 +46,55 @@
 // @lc code=start
 class Solution {
     public List<List<Integer>> getSkyline(int[][] buildings) {
+        List<List<Integer>> res = new ArrayList<>();
+        if(buildings.length == 0){
+            return res;
+        }
+        int[][] points = new int[2 * buildings.length][2];
+        for(int i = 0;i < buildings.length;i++){
+            points[2 * i][0] = buildings[i][0];
+            points[2 * i][1] = -buildings[i][2];
+            points[2 * i + 1][0] = buildings[i][1];
+            points[2 * i + 1][1] = buildings[i][2];
+            
+        }
+        Arrays.sort(points,new Comparator<int[]>(){
+            public int compare(int[] o1,int[] o2){
+                if(o1[0] != o2[0]){
+                    return o1[0] - o2[0];
+                } else {
+                    return o1[1] - o2[1];
+                }
+            }
+        });
+        PriorityQueue<Integer> q = new PriorityQueue(11,new Comparator<Integer>(){
+            public int compare(Integer o1,Integer o2){
+                return o2 - o1;
+            }
+        });
         
+        int pre = 0, cp = 0;
+        for(int i = 0;i < points.length;i++){
+            if(points[i][1] < 0){
+                q.offer(-points[i][1]);
+            } else {
+                q.remove(points[i][1]);
+            }
+            
+            int now = 0;
+            if(q.size() > 0){
+                now = q.peek();
+            }
+            if(now != pre){
+                List<Integer> ans = new ArrayList<>();
+                cp = points[i][0];
+                pre = now;
+                ans.add(cp);
+                ans.add(pre);
+                res.add(ans);
+            }     
+        }
+        return res;
     }
 }
 // @lc code=end
