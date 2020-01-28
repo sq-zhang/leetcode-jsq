@@ -33,7 +33,18 @@
 // @lc code=start
 class Solution {
     public String longestPalindrome(String s) {
-        
+        int n = s.length();
+        boolean[] dp = new boolean[n];
+        String res = "";
+        for(int i = n - 1;i >= 0;i--) {
+            for(int j = n - 1;j >= i;j--) {
+                dp[j] = s.charAt(i) == s.charAt(j) && (j - i < 3 || dp[j - 1]);
+                if (dp[j] && j - i + 1 > res.length()) {
+                    res = s.substring(i, j + 1);
+                }
+            }
+        }
+        return res;
     }
 }
 // @lc code=end

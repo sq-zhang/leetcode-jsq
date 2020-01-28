@@ -56,8 +56,17 @@
 
 // @lc code=start
 class Solution {
+    private Map<Integer, Integer> maps = new HashMap<>();
     public int fib(int N) {
-        
+        if (N <= 1) {
+            return N;
+        }
+        if (maps.containsKey(N)) {
+            return maps.get(N);
+        }
+        int res = fib(N - 1) + fib(N - 2);
+        maps.put(N, res);
+        return res;
     }
 }
 // @lc code=end

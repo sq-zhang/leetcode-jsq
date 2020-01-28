@@ -48,8 +48,24 @@
  * }
  */
 class Solution {
+    private TreeNode pre;
+    private Integer res = Integer.MAX_VALUE;
+
     public int getMinimumDifference(TreeNode root) {
-        
+        inOrder(root);
+        return res;
+    }
+
+    private void inOrder(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        inOrder(root.left);
+        if (pre != null) {
+            res = Math.min(res, Math.abs(pre.val - root.val));
+        }
+        pre = root;
+        inOrder(root.right);
     }
 }
 // @lc code=end
