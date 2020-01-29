@@ -57,7 +57,24 @@
 // @lc code=start
 class Solution {
     public String licenseKeyFormatting(String S, int K) {
-        
+        StringBuilder res = new StringBuilder();
+        int count = 0, n = S.length();
+        for(int i = n - 1;i >= 0;i--) {
+            char c = S.charAt(i);
+            if (c == '-') {
+                continue;
+            }
+            if (count % K == 0 && count != 0) {
+                res.append("-");
+            }
+            if (c >= 'a' && c <= 'z') {
+                c -= 'z' - 'Z';
+            }
+            res.append(c);
+            count++;
+        }
+
+        return res.reverse().toString();
     }
 }
 // @lc code=end

@@ -35,7 +35,14 @@
 // @lc code=start
 class Solution {
     public int minMoves(int[] nums) {
-        
+        int res = 0, min = Integer.MAX_VALUE;
+        for(int n : nums) {
+            min = Math.min(min, n);
+        }
+        for(int n : nums) {
+            res += n - min;
+        }
+        return res;
     }
 }
 // @lc code=end
