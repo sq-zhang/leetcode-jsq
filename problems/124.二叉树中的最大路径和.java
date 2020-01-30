@@ -53,8 +53,21 @@
  * }
  */
 class Solution {
+    private Integer res = Integer.MIN_VALUE;
     public int maxPathSum(TreeNode root) {
-        
+        dfs(root);
+        return res;
+    }
+
+    private int dfs(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = Math.max(dfs(root.left), 0);
+        int right = Math.max(dfs(root.right), 0);
+        int cur = left + root.val + right;
+        res = Math.max(res, cur);
+        return root.val + Math.max(left, right);
     }
 }
 // @lc code=end

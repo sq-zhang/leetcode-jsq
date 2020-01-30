@@ -36,7 +36,23 @@
  */
 class Solution {
     public ListNode partition(ListNode head, int x) {
-        
+        ListNode newHead = new ListNode(-1);
+        ListNode newTail = new ListNode(-1);
+        ListNode curHead = newHead, curTail = newTail;
+
+        while(head != null) {
+            if (head.val < x) {
+                curHead.next = head;
+                curHead = curHead.next;
+            } else {
+                curTail.next = head;
+                curTail = curTail.next;
+            }
+            head = head.next;
+        }
+        curTail.next = null;
+        curHead.next = newTail.next;
+        return newHead.next;
     }
 }
 // @lc code=end
