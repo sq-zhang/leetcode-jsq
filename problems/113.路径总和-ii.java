@@ -50,8 +50,30 @@
  * }
  */
 class Solution {
+    private List<List<Integer>> res = new ArrayList<>();
     public List<List<Integer>> pathSum(TreeNode root, int sum) {
-        
+        if (root == null) {
+            return res;
+        }
+        dfs(root, sum, 0, new ArrayList<>());
+        return res;
+    }
+
+    private void dfs(TreeNode root, int sum, int cur, List<Integer> list) {
+        cur += root.val;
+        list.add(root.val);
+        if (root.left != null) {
+            dfs(root.left, sum, cur, list);
+            list.remove(list.size() - 1);
+        }
+        if (root.right != null) {
+            dfs(root.right, sum, cur, list);
+            list.remove(list.size() - 1);
+        }
+        if (root.left == null && root.right == null && sum == cur) {
+            res.add(new ArrayList<>(list));
+        }
+        return;
     }
 }
 // @lc code=end

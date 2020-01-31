@@ -35,7 +35,33 @@
 // @lc code=start
 class Solution {
     public int[][] insert(int[][] intervals, int[] newInterval) {
-        
+        int newStart = newInterval[0], newEnd = newInterval[1];
+        int i = 0, n = intervals.length;
+        LinkedList<int[]> res = new LinkedList<>();
+        while(i < n && newStart > intervals[i][0]) {
+            res.add(intervals[i++]);
+        }
+        int[] interval = new int[2];
+        if (res.isEmpty() || res.getLast()[1] < newStart) {
+            res.add(newInterval);
+        } else {
+            interval = res.removeLast();
+            interval[1] = Math.max(interval[1], newEnd);
+            res.add(interval);
+        }
+
+        while(i < n) {
+            interval = intervals[i++];
+            int start = interval[0], end = interval[1];
+            if (res.getLast()[1] < start) {
+                res.add(interval);
+            } else {
+                interval = res.removeLast();
+                interval[1] = Math.max(interval[1], end);
+                res.add(interval);
+            }
+        }
+        return res.toArray(new int[res.size()][2]);
     }
 }
 // @lc code=end
