@@ -36,7 +36,14 @@
 // @lc code=start
 class Solution {
     public int minimumTotal(List<List<Integer>> triangle) {
-        
+        int n = triangle.size();
+        int[] minlen = new int[n + 1];
+        for (int l = n - 1;l >= 0;l--){
+            for (int i = 0;i <= l;i++){
+                minlen[i] = Math.min(minlen[i], minlen[i + 1]) + triangle.get(l).get(i);
+            }
+        }
+        return minlen[0];
     }
 }
 // @lc code=end

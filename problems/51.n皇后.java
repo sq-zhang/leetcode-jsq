@@ -44,8 +44,46 @@
 
 // @lc code=start
 class Solution {
+    private List<List<String>> res=new ArrayList<>();
+
     public List<List<String>> solveNQueens(int n) {
-        
+        dfs(0, new int[n], n);
+        return res;
+    }
+
+    private void dfs(int k,int [] array,int n){
+        if(k == n){
+            List<String> list = new ArrayList<>();
+            for(int i = 0;i < n;i++){
+                StringBuilder sb = new StringBuilder();
+                for(int j = 0;j < n;j++){
+                    if(array[i] == j){
+                        sb.append("Q");
+                    }else{
+                        sb.append(".");
+                    }
+                }
+                list.add(sb.toString());
+            }
+            res.add(list);
+            return;
+        }
+        for(int i = 0;i < n;i++){
+            array[k] = i;
+            if(!check(array, n, k)){
+                dfs(k + 1, array, n);
+            }
+        }
+    }
+
+    private boolean check(int[] array,int n,int k){
+        for(int i = 0;i < k;i++){
+            if(Math.abs(k - i) == Math.abs(array[k] - array[i]) 
+                || array[k] == array[i]){
+                return true;
+            }
+        }
+        return false;
     }
 }
 // @lc code=end
