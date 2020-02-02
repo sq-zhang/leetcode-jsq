@@ -43,7 +43,26 @@
 // @lc code=start
 class Solution {
     public int reverse(int x) {
-        
+        if (x == Integer.MIN_VALUE) {
+            return 0;
+        }
+        boolean negative = false;
+        if (x < 0) {
+            x = -x;
+            negative = true;
+        }
+        long res = 0;
+        while(x > 0) {
+            res = res * 10 + x % 10;
+            x /= 10;
+        }
+        if (negative) {
+            res = - res;
+        }
+        if (res > Integer.MAX_VALUE || res < Integer.MIN_VALUE) {
+            return 0;
+        }
+        return (int) res;
     }
 }
 // @lc code=end
