@@ -43,7 +43,27 @@
  */
 class Solution {
     public List<Integer> largestValues(TreeNode root) {
-        
+        List<Integer> res = new ArrayList<>();
+        List<TreeNode> queue = new ArrayList<>();
+        if (root != null) {
+            queue.add(root);
+        }
+        while(!queue.isEmpty()) {
+            List<TreeNode> newQueue = new ArrayList<>();
+            int max = Integer.MIN_VALUE;
+            for(TreeNode node : queue) {
+                max = Math.max(max, node.val);
+                if (node.left != null) {
+                    newQueue.add(node.left);
+                }
+                if (node.right != null) {
+                    newQueue.add(node.right);
+                }
+            }
+            res.add(max);
+            queue = newQueue;
+        }
+        return res;
     }
 }
 // @lc code=end

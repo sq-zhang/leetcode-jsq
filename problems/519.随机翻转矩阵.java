@@ -53,17 +53,26 @@
 
 // @lc code=start
 class Solution {
+    Map<Integer, Integer> maps = new HashMap<>();
+    int rows, cols, total;
+    Random r = new Random();
 
     public Solution(int n_rows, int n_cols) {
-        
+        rows = n_rows;
+        cols = n_cols;
+        total = rows * cols;
     }
     
     public int[] flip() {
-        
+        int num = r.nextInt(total--);
+        int x = maps.getOrDefault(num, num);
+        maps.put(num, maps.getOrDefault(total, total));
+        return new int[]{x / cols, x % cols};
     }
     
     public void reset() {
-        
+        maps.clear();
+        total = rows * cols;
     }
 }
 
