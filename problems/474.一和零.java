@@ -3,7 +3,7 @@
  *
  * [474] 一和零
  *
- * https://leetcode-cn.com/problems/ones-and-zeroes/description/
+ * https://leetcode-cn.com/problems/j-and-i/description/
  *
  * algorithms
  * Medium (47.84%)
@@ -48,8 +48,25 @@
 
 // @lc code=start
 class Solution {
+
+    private int[] calculate(String s) {
+        int[] counts = new int[2];
+        for(char c : s.toCharArray()) {
+            counts[c - '0']++;
+        }
+        return counts;
+    }
+
     public int findMaxForm(String[] strs, int m, int n) {
-        
+        int[][] dp = new int[m + 1][n + 1];
+        for (String s: strs) {
+            int[] count = calculate(s);
+            for (int i = m; i >= count[0]; i--)
+                for (int j = n; j >= count[1]; j--) {
+                    dp[i][j] = Math.max(1 + dp[i - count[0]][j - count[1]], dp[i][j]);
+                }
+        }
+        return dp[m][n];
     }
 }
 // @lc code=end

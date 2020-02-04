@@ -37,17 +37,39 @@
 // @lc code=start
 class SummaryRanges {
 
+    Set<Integer> nums;
+    LinkedList<int[]> intervals;
+
     /** Initialize your data structure here. */
     public SummaryRanges() {
-        
+        nums = new HashSet<>();
+        intervals = new LinkedList<>();
     }
     
     public void addNum(int val) {
-        
+        if (nums.contains(val)) {
+            return;
+        }
+        int pos = 0;
+        while(pos < intervals.size() && intervals.get(pos)[0] < val) {
+            pos++;
+        }
+        if (nums.contains(val - 1) && nums.contains(val + 1)) {
+			intervals.get(pos - 1)[1] = intervals.get(pos)[1];
+			intervals.remove(pos);
+		} else if (nums.contains(val - 1)) {
+			intervals.get(pos - 1)[1]++;
+		} else if (nums.contains(val + 1)) {
+			intervals.get(pos)[0]--;
+		} else {
+			intervals.add(pos, new int[] { val, val });
+		}
+
+        nums.add(val);
     }
     
     public int[][] getIntervals() {
-        
+        return intervals.toArray(new int[0][0]);
     }
 }
 

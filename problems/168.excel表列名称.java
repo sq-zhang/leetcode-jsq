@@ -50,7 +50,18 @@
 // @lc code=start
 class Solution {
     public String convertToTitle(int n) {
-        
+        StringBuilder res = new StringBuilder();
+        while(n > 0) {
+            if (n % 26 == 0) {
+                res.append('Z');
+                n -= 1;
+            } else {
+                char c = (char)('A' + (n % 26) - 1);
+                res.append(c);
+            }
+            n /= 26;
+        }
+        return res.reverse().toString();
     }
 }
 // @lc code=end
