@@ -38,7 +38,25 @@
 // @lc code=start
 class Solution {
     public int findMinArrowShots(int[][] points) {
-        
+        if (points.length == 0) {
+            return 0;
+        }
+        Arrays.sort(points, new Comparator<int[]>(){
+            public int compare(int[] a, int[] b) {
+                if (a[1] != b[1]) {
+                    return a[1] - b[1];
+                }
+                return a[0] - b[0];
+            }
+        });
+        int res = 1, end = points[0][1];
+        for(int[] p : points) {
+            if (end < p[0]) {
+                res++;
+                end = p[1];
+            }
+        }
+        return res;
     }
 }
 // @lc code=end

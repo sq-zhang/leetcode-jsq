@@ -46,7 +46,30 @@
 // @lc code=start
 class Solution {
     public boolean canIWin(int maxChoosableInteger, int desiredTotal) {
-        
+        int sum = (1 + maxChoosableInteger) * maxChoosableInteger / 2;
+        if (sum < desiredTotal) {
+            return false;
+        }
+
+        return dfs(0, desiredTotal, maxChoosableInteger, new int[1 << maxChoosableInteger]);
+    }
+
+    private boolean dfs(int bits, int desiredTotal, int maxChoosableInteger, int[] memo) {
+        if (memo[bits] != 0) {
+            return memo[bits] == 1;
+        }
+        for(int i = maxChoosableInteger;i >= 1;i--) {
+            int curBit = 1 << (i - 1);
+            if ((bits & curBit) == 0) {
+                if (i >= desiredTotal
+                    || !dfs(bits | curBit, desiredTotal - i, maxChoosableInteger, memo)) {
+                    memo[bits] = 1;
+                    return true;
+                }
+            }
+        }
+        memo[bits] = 2;
+        return false;
     }
 }
 // @lc code=end
