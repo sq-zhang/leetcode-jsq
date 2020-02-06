@@ -35,13 +35,23 @@
 
 // @lc code=start
 class Solution {
-
+    int[] nums;
     public Solution(int[] nums) {
-        
+        this.nums = nums;
     }
     
     public int pick(int target) {
-        
+        Random rand = new Random();
+        int count = 0, res = 0;
+        for(int i = 0;i < nums.length;i++) {
+            if (nums[i] == target) {
+                count++;
+                if (rand.nextInt() % count == 0) {
+                    res = i;
+                }
+            }
+        }
+        return res;
     }
 }
 

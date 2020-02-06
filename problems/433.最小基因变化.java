@@ -68,7 +68,44 @@
 // @lc code=start
 class Solution {
     public int minMutation(String start, String end, String[] bank) {
-        
+        Set<String> bankSet = new HashSet<>(Arrays.asList(bank));
+        if (!bankSet.contains(end)) {
+            return -1;
+        }
+        char[] chars = {'A', 'G', 'C', 'T'};
+        Set<String> positive = new HashSet<>(), negative = new HashSet<>();
+        positive.add(start);
+        negative.add(end);
+        bankSet.remove(start);
+        int res = 0;
+        while(positive.size() > 0 && negative.size() > 0) {
+            res++;
+            if (positive.size() > negative.size()) {
+                Set<String> tmp = new HashSet<>(positive);
+                positive = negative;
+                negative = tmp;
+            }
+            Set<String> newPositive = new HashSet<>();
+            for(String pattern : positive) {
+                char[] patternChars = pattern.toCharArray();
+                for(int i = 0;i < patternChars.length;i++) {
+                    char oldChar = patternChars[i];
+                    for(char c : chars) {
+                        patternChars[i] = c;
+                        String newStr = new String(patternChars);
+                        if (negative.contains(newStr)) {
+                            return res;
+                        } else if (bankSet.contains(newStr)) {
+                            newPositive.add(newStr);
+                            bankSet.remove(newStr);
+                        }
+                    }
+                    patternChars[i] = oldChar;
+                }
+            }
+            positive = newPositive;
+        }
+        return -1;
     }
 }
 // @lc code=end

@@ -46,8 +46,75 @@
 
 // @lc code=start
 class Solution {
-    public List<String> findWords(char[][] board, String[] words) {
+    class Node {
+        Node[] next = new Node[26];
+        boolean isWord = false;
+        String word = null;
+    }
+
+    class Trie {
+
+        Node root;
+        public Trie() {
+            root = new Node();
+        }
         
+        // 插入单词
+        public void insert(String word) {
+            Node cur = root;
+            for(char c : word.toCharArray()) {
+                Node next = cur.next[c - 'a'];
+                if (next == null) {
+                    cur.next[c - 'a'] = new Node();
+                }
+                cur = cur.next[c - 'a'];
+            }
+            cur.isWord = true;
+            cur.word = word;
+        }
+    }
+
+    public List<String> findWords(char[][] board, String[] words) {
+        if (board.length == 0 || board[0].length == 0 || words.length == 0) {
+            return new ArrayList<>();
+        }
+
+        Trie trie = new Trie();
+        for(String word : words) {
+            trie.insert(word);
+        }
+
+        Node root = trie.root;
+        int m = board.length, n = board[0].length;
+        Set<String> res = new HashSet<>();
+        boolean[][] visited = new boolean[m][n];
+        for(int i = 0;i < m;i++) {
+            for(int j = 0;j < n;j++) {
+                dfs(board, visited, i, j, m, n, root, res);
+            }
+        }
+        return new ArrayList<String>(res);
+    }
+
+    private void dfs(char[][] board, boolean[][] visited, int i, int j,
+        int m, int n, Node root, Set<String> res) {
+        if (i < 0 || i >= m || j < 0 || j >= n || visited[i][j]) {
+            return;
+        }
+        
+        root = root.next[board[i][j] - 'a'];
+        if (root == null) {
+            return;
+        }
+        if (root.isWord) {
+            res.add(root.word);
+        }
+        visited[i][j] = true;
+        dfs(board, visited, i + 1, j, m, n, root, res);
+        dfs(board, visited, i - 1, j, m, n, root, res);
+        dfs(board, visited, i, j + 1, m, n, root, res);
+        dfs(board, visited, i, j - 1, m, n, root, res);
+        visited[i][j] = false;
     }
 }
 // @lc code=end
