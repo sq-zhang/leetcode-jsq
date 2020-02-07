@@ -34,7 +34,33 @@
 // @lc code=start
 class Solution {
     public String reverseVowels(String s) {
-        
+        if (s == null || s.length() == 0) {
+            return s;
+        }
+        char[] chars = s.toCharArray();
+        int left = 0, right = chars.length - 1;
+        while(left < right) {
+            while(left < right && !isVowel(chars[left])) {
+                left++;
+            }
+            while(left < right && !isVowel(chars[right])) {
+                right--;
+            }
+            if (left >= right) {
+                break;
+            }
+            char c = chars[left];
+            chars[left] = chars[right];
+            chars[right] = c;
+            left++;
+            right--;
+        }
+        return new String(chars);
+    }
+
+    boolean isVowel(char c) {
+        return c == 'a' || c == 'A' || c == 'e' || c == 'E' || c == 'i' 
+            || c == 'I' || c == 'o' || c == 'O' || c == 'u' || c == 'U';
     }
 }
 // @lc code=end

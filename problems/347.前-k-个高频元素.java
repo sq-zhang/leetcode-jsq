@@ -38,7 +38,27 @@
 // @lc code=start
 class Solution {
     public List<Integer> topKFrequent(int[] nums, int k) {
-        
+        Map<Integer, Integer> count = new HashMap<>();
+        for (int n: nums) {
+            count.put(n, count.getOrDefault(n, 0) + 1);
+        }
+
+        PriorityQueue<Integer> heap = new PriorityQueue<Integer>(
+            (n1, n2) -> count.get(n1) - count.get(n2));
+
+        for (int n: count.keySet()) {
+            heap.add(n);
+            if (heap.size() > k) {
+                heap.poll();
+            }
+        }
+
+        List<Integer> res = new ArrayList<>();
+        while (!heap.isEmpty()) {
+            res.add(heap.poll());
+        }
+        Collections.reverse(res);
+        return res;
     }
 }
 // @lc code=end
