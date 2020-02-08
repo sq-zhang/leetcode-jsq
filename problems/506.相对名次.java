@@ -39,7 +39,34 @@
 // @lc code=start
 class Solution {
     public String[] findRelativeRanks(int[] nums) {
-        
+        int n = nums.length;
+        String[] res = new String[n];
+        if (n == 0) {
+            return res;
+        }
+        int[][] indexs = new int[nums.length][2];
+        for(int i = 0;i < n;i++) {
+            indexs[i][0] = i;
+            indexs[i][1] = nums[i];
+        }
+        Arrays.sort(indexs, new Comparator<int[]>() {
+            public int compare(int[] a, int[] b) {
+                return b[1] - a[1];
+            }
+        });
+        for(int i = 0;i < n;i++) {
+            int index = indexs[i][0];
+            if (i == 0) {
+                res[index] = "Gold Medal";
+            } else if (i == 1) {
+                res[index] = "Silver Medal";
+            } else if (i == 2) {
+                res[index] = "Bronze Medal";
+            } else {
+                res[index] = (i + 1) + "";
+            }
+        }
+        return res;
     }
 }
 // @lc code=end

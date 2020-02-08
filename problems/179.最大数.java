@@ -32,7 +32,22 @@
 // @lc code=start
 class Solution {
     public String largestNumber(int[] nums) {
-        
+        int n = nums.length;
+        String[] numsArr = new String[n];
+        for(int i = 0;i < n;i++) {
+            numsArr[i] = String.valueOf(nums[i]);
+        }
+
+        Arrays.sort(numsArr, (a, b) -> (b + a).compareTo(a + b));
+        if (numsArr[0].equals("0")) {
+            return "0";
+        }
+
+        StringBuilder res = new StringBuilder();
+        for(String numArr : numsArr) {
+            res.append(numArr);
+        }
+        return res.toString();
     }
 }
 // @lc code=end

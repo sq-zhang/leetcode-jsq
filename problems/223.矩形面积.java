@@ -31,7 +31,18 @@
 // @lc code=start
 class Solution {
     public int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
-        
+        int a1 = (C - A) * (D - B);
+        int a2 = (G - E) * (H - F);
+        if (E >= C || G <= A || H <= B || F >= D) {
+            return a1 + a2;
+        }
+
+        int leftBottomX = Math.max(A, E);
+        int leftBottomY = Math.max(B, F);
+        int rightUpX = Math.min(C, G);
+        int rightUpY = Math.min(D, H);
+        int a = (rightUpX - leftBottomX) * (rightUpY - leftBottomY);
+        return a1 + a2 - a;
     }
 }
 // @lc code=end
