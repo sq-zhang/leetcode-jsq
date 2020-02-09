@@ -45,7 +45,18 @@
 // @lc code=start
 class Solution {
     public String complexNumberMultiply(String a, String b) {
-        
+        // (a1+b1i)*(a2+b2i) = a1a2-b1b2+(a1b2+a2b1)i
+        int[] num1 = getComplexNumber(a);
+        int[] num2 = getComplexNumber(b);
+        int i = num1[0] * num2[0] - num1[1] * num2[1];
+        int j = num1[0] * num2[1] + num1[1] * num2[0];
+        return i + "+" + j + "i";
+    }
+
+    private int[] getComplexNumber(String a) {
+        String[] nums = a.split("\\+");
+        return new int[]{Integer.valueOf(nums[0]), 
+            Integer.valueOf(nums[1].substring(0, nums[1].length() - 1))};
     }
 }
 // @lc code=end

@@ -39,8 +39,40 @@
 // @lc code=start
 class Solution {
     public String fractionToDecimal(int numerator, int denominator) {
-        
+        if (numerator == 0) {
+            return "0";
+        }
+        if (denominator == 0) {
+            return null;
+        }
+        StringBuilder res = new StringBuilder();
+        if (numerator < 0 ^ denominator < 0) {
+            res.append("-");
+        }
+        long dividend = Math.abs(Long.valueOf(numerator));
+        long divisor = Math.abs(Long.valueOf(denominator));
+        long mod = dividend % divisor;
+        res.append(String.valueOf(dividend / divisor));
+        if (mod == 0) {
+            return res.toString();
+        }
+        res.append(".");
+        Map<Long, Integer> maps = new HashMap<>();
+        while(mod != 0) {
+            if (maps.containsKey(mod)) {
+                res.insert(maps.get(mod), "(");
+                res.append(")");
+                break;
+            }
+            maps.put(mod, res.length());
+            mod *= 10;
+            res.append(String.valueOf(mod / divisor));
+            mod %= divisor;
+        }
+
+        return res.toString();
     }
+        
 }
 // @lc code=end
 
