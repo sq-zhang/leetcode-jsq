@@ -78,7 +78,55 @@
 // @lc code=start
 class Solution {
     public int minStickers(String[] stickers, String target) {
-        
+        int m = stickers.length, n = target.length();
+    	int[] total = new int[26];
+    	int[][] chars = new int[m][26];
+    	
+    	for(int i = 0;i < m;i++) {
+    		for(int j = 0;j< stickers[i].length();j++) {
+    			total[stickers[i].charAt(j) - 'a']++;
+    			chars[i][stickers[i].charAt(j) - 'a']++;
+    		}
+    	}
+
+    	for(int i = 0;i < n;i++) {
+    		if(total[target.charAt(i) - 'a'] == 0) {
+                return -1;
+            }
+    	}
+
+        int[] dp = new int[1 << n];
+    	for(int i = 1;i < (1 << n);i++) {
+            dp[i] = -1;
+        }
+    	
+        int[] tmp = new int[26];
+    	for(int i = 0;i < (1 << n);i++) {
+            if (dp[i] == - 1) {
+                continue;
+            }
+            for(int j = 0;j < m;j++) {
+                int state = i;
+                for(int k = 0;k < 26;k++) {
+                    tmp[k] = chars[j][k];
+                }
+                for(int k = 0;k < n;k++) {
+                    if(((1 << k) & i) != 0) {
+                        continue;
+                    }
+                    if(tmp[target.charAt(k) - 'a'] == 0) {
+                        continue;
+                    }
+                    state |= (1 << k); 
+                    tmp[target.charAt(k) - 'a']--;
+                }
+                if(dp[state] == -1 || dp[state] > dp[i] + 1) {
+                    dp[state] = dp[i]+1;
+                }
+            }
+    	}
+    	
+    	return dp[(1 << n) - 1];
     }
 }
 // @lc code=end

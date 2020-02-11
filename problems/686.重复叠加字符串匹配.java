@@ -29,7 +29,21 @@
 // @lc code=start
 class Solution {
     public int repeatedStringMatch(String A, String B) {
-        
+        int res = 1;
+        StringBuilder a = new StringBuilder(A);
+        while(a.length() < B.length()) {
+            a.append(A);
+            res++;
+        }
+        if (a.lastIndexOf(B) != -1) {
+            return res;
+        }
+        a.append(A);
+        if (a.lastIndexOf(B) == - 1) {
+            return -1;
+        } else {
+            return res + 1;
+        }
     }
 }
 // @lc code=end

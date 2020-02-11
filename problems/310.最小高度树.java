@@ -61,7 +61,50 @@
 // @lc code=start
 class Solution {
     public List<Integer> findMinHeightTrees(int n, int[][] edges) {
-        
+        List<Integer> res = new ArrayList<>();
+        if (n == 1) {
+            res.add(0);
+            return res;
+        }
+        Map<Integer, List<Integer>> maps = new HashMap<>();
+        int[] degree = new int[n];
+        for(int[] edge : edges) {
+            if (!maps.containsKey(edge[0])) {
+                maps.put(edge[0], new ArrayList<>());
+            }
+            if (!maps.containsKey(edge[1])) {
+                maps.put(edge[1], new ArrayList<>());
+            }
+            maps.get(edge[0]).add(edge[1]);
+            maps.get(edge[1]).add(edge[0]);
+            degree[edge[0]]++;
+            degree[edge[1]]++;
+        }
+        int minHeight = Integer.MAX_VALUE;
+        List<Integer> queue = new ArrayList<>();
+        for(int i = 0;i < n;i++) {
+            if (degree[i] == 1) {
+                queue.add(i);
+            }
+        }
+        while(!queue.isEmpty()) {
+            List<Integer> newQueue = new ArrayList<>();
+            res = new ArrayList<>(queue);
+            for(Integer num : queue) {
+                if (!maps.containsKey(num)) {
+                    continue;
+                }
+                for(int next : maps.get(num)) {
+                    degree[next]--;
+                    if (degree[next] == 1) {
+                        newQueue.add(next);
+                    }
+                }
+            }
+            queue = newQueue;
+        }
+
+        return res;
     }
 }
 // @lc code=end
