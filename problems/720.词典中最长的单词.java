@@ -51,7 +51,26 @@
 // @lc code=start
 class Solution {
     public String longestWord(String[] words) {
-        
+        String res = "";
+        Set<String> wordSet = new HashSet<>(Arrays.asList(words));
+        for(String word : words) {
+            if (word.length() > res.length() ||
+                    word.length() == res.length() && word.compareTo(res) < 0) {
+                boolean found = true;
+                for (int k = 1; k < word.length(); ++k) {
+                    if (!wordSet.contains(word.substring(0, k))) {
+                        found = false;
+                        break;
+                    }
+                }
+                if (found) {
+                    res = word;
+                }
+            }  
+        }
+
+        return res;
+
     }
 }
 // @lc code=end
