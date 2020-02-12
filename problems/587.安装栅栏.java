@@ -50,8 +50,34 @@
 
 // @lc code=start
 class Solution {
+
+    public int orientation(int[] p, int[] q, int[] r) {
+        return (q[1] - p[1]) * (r[0] - q[0]) - (q[0] - p[0]) * (r[1] - q[1]);
+    }
+
     public int[][] outerTrees(int[][] points) {
+        Arrays.sort(points, new Comparator<int[]>() {
+            public int compare(int[] a, int[] b) {
+                return a[0] == b[0] ? b[1] - a[1] : b[0] - a[0];
+            }
+        });
+        Stack<int[]> s = new Stack<>();
+        for(int i = 0;i < points.length;i++) {
+            while(s.size() >= 2 && orientation(s.get(s.size() - 2), s.get(s.size() - 1), points[i]) > 0) {
+                s.pop();
+            }
+            s.push(points[i]);
+        }
+        s.pop();
+        for(int i = points.length - 1;i >= 0;i--) {
+            while(s.size() >= 2 && orientation(s.get(s.size() - 2), s.get(s.size() - 1), points[i]) > 0) {
+                s.pop();
+            }
+            s.push(points[i]);
+        }
         
+        List<int[]> res = new ArrayList<>(new HashSet<>(s));
+        return res.toArray(new int[res.size()][2]);
     }
 }
 // @lc code=end
