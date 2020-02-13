@@ -28,7 +28,14 @@
 // @lc code=start
 class Solution {
     public int countSegments(String s) {
-        
+        int res = 0;
+        String[] str = s.split("\\ ");
+        for(String st : str) {
+            if (st.length() != 0) {
+                res++;
+            }
+        }
+        return res;
     }
 }
 // @lc code=end

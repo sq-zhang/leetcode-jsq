@@ -43,7 +43,47 @@
 // @lc code=start
 class Solution {
     public int reversePairs(int[] nums) {
+        return mergeSortHelper(nums, 0, nums.length - 1);
+    }
+
+    int mergeSortHelper(int[] nums, int left, int right) {
+        if (left >= right) {
+            return 0;
+        }
+        int mid = (left + right) / 2, count = 0;
+        count += mergeSortHelper(nums, left, mid);
+        count += mergeSortHelper(nums, mid + 1, right);
         
+        int l = left, r = mid + 1;
+        while (l <= mid && r <= right) {
+            if ((long)nums[l] > (2 * (long)nums[r])) {
+                count += mid - l + 1 ;
+                r++;
+            } else {
+                l++;
+            } 
+        }
+        mergeSortMerge(nums, left, mid, right);
+        return count;
+    }
+
+    void mergeSortMerge(int[] nums, int left, int mid, int right) {
+        int[] arr = new int[right - left + 1];
+        int i = left, j = mid + 1, k = 0;
+        while(i <= mid || j <= right) {
+            if (i > mid) {
+                arr[k++] = nums[j++];
+            } else if (j > right) {
+                arr[k++] = nums[i++];
+            } else if (nums[i] <= nums[j]) {
+                arr[k++] = nums[i++];
+            } else {
+                arr[k++] = nums[j++];
+            }
+        }
+        for(int p = 0;p < arr.length;p++) {
+            nums[left + p] = arr[p];
+        }
     }
 }
 // @lc code=end

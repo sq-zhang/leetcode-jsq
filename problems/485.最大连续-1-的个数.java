@@ -35,7 +35,16 @@
 // @lc code=start
 class Solution {
     public int findMaxConsecutiveOnes(int[] nums) {
-        
+        int res = 0, cur = 0;
+        for(int i = 0;i < nums.length;i++) {
+            if (nums[i] == 0) {
+                res = Math.max(res, cur);
+                cur = 0;
+            } else {
+                cur++;
+            }
+        }
+        return Math.max(res, cur);
     }
 }
 // @lc code=end
