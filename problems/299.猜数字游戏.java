@@ -44,7 +44,25 @@
 // @lc code=start
 class Solution {
     public String getHint(String secret, String guess) {
-        
+        int bull = 0, cow = 0;
+        int[] count = new int[10];
+        for(char c : secret.toCharArray()) {
+            count[c - '0']++;
+        }
+        for(int i = 0;i < secret.length();i++) {
+            char g = guess.charAt(i), s = secret.charAt(i);
+            if (g == s) {
+                bull++;
+                if (count[s - '0'] <= 0) {
+                    cow--;
+                }
+                count[s - '0']--;
+            } else if (count[g - '0'] > 0) {
+                cow++;
+                count[g - '0']--;
+            }
+        }
+        return bull + "A" + cow + "B";
     }
 }
 // @lc code=end

@@ -30,9 +30,27 @@
 
 // @lc code=start
 class Solution {
-    public int superPow(int a, int[] b) {
-        
+
+    public int myPow(int x, int n) {
+        int res = 1;
+        while(n > 0) {
+            if ((n & 1) == 1) {
+                res = (res * x) % 1337;
+            }
+            x = (x % 1337) * (x % 1337) % 1337;
+            n >>= 1;
+        }
+        return res;
     }
+
+    public int superPow(int a, int[] b) {
+        int res = 1;
+        for(int i : b) {
+            res = myPow(res, 10) * myPow(a, i);
+        }
+        return res % 1337;
+    }
+
 }
 // @lc code=end
 

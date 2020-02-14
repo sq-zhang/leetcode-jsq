@@ -44,15 +44,29 @@
  */
 class Solution {
 
+    ListNode root;
+    Random rand;
+    int size;
+
     /** @param head The linked list's head.
         Note that the head is guaranteed to be not null, so it contains at least one node. */
     public Solution(ListNode head) {
-        
+        root = head;
+        rand = new Random();
+        while(head != null) {
+            size++;
+            head = head.next;
+        }
     }
     
     /** Returns a random node's value. */
     public int getRandom() {
-        
+        ListNode cur = root;
+        int r = rand.nextInt(size);
+        while(r-- > 0) {
+            cur = cur.next;
+        }
+        return cur.val;
     }
 }
 
