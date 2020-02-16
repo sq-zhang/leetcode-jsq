@@ -49,7 +49,23 @@
 // @lc code=start
 class Solution {
     public int characterReplacement(String s, int k) {
-        
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+        int[] map = new int[26];
+        char[] chars = s.toCharArray();
+        int left = 0, right = 0;
+        int charMax = 0;
+        for (right = 0; right < chars.length; right++) {
+            int index = chars[right] - 'A';
+            map[index]++;
+            charMax = Math.max(charMax, map[index]);
+            if (right - left + 1 > charMax + k) {
+                map[chars[left] - 'A']--;
+                left++;
+            }
+        }
+        return chars.length - left;
     }
 }
 // @lc code=end

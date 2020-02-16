@@ -61,7 +61,26 @@ class Node {
 */
 class Solution {
     public Node flatten(Node head) {
-        
+        if (head == null) {
+            return head;
+        }
+        Node newHead = new Node(0, null, head, null);
+        dfs(newHead, head);
+        newHead.next.prev = null;
+        return newHead.next;
+    }
+    private Node dfs(Node prev, Node cur) {
+        if (cur == null) {
+            return prev;
+        }    
+        cur.prev = prev;
+        prev.next = cur;
+
+        Node tempNext = cur.next;
+        Node tail = dfs(cur, cur.child);
+        cur.child = null;
+
+        return dfs(tail, tempNext);
     }
 }
 // @lc code=end
