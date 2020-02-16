@@ -48,17 +48,31 @@
 // @lc code=start
 class MedianFinder {
 
+    PriorityQueue<Integer> maxHeap;
+    PriorityQueue<Integer> minHeap;
+    int n;
+
     /** initialize your data structure here. */
     public MedianFinder() {
-        
+        maxHeap = new PriorityQueue<>((x, y) -> y - x);
+        minHeap = new PriorityQueue<>();
+        n = 0;
     }
     
     public void addNum(int num) {
-        
+        maxHeap.offer(num);
+        minHeap.add(maxHeap.poll());
+        if ((++n & 1) != 0) {
+            maxHeap.add(minHeap.poll());
+        }
     }
     
     public double findMedian() {
-        
+        if (n % 2 == 0) {
+            return (minHeap.peek() + maxHeap.peek()) / 2.0;
+        } else {
+            return maxHeap.peek();
+        }
     }
 }
 

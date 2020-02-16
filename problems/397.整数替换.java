@@ -52,7 +52,25 @@
 // @lc code=start
 class Solution {
     public int integerReplacement(int n) {
-        
+        int res = 0;
+        List<Long> queue = new ArrayList<>();
+        queue.add((long)n);
+        while(!queue.isEmpty()) {
+            List<Long> newQueue = new ArrayList<>();
+            for(Long num : queue) {
+                if (num == 1) {
+                    return res;
+                } else if (num % 2 == 0) {
+                    newQueue.add(num / 2);
+                } else {
+                    newQueue.add(num + 1);
+                    newQueue.add(num - 1);
+                }
+            }
+            res++;
+            queue = newQueue;
+        }
+        return res;
     }
 }
 // @lc code=end
