@@ -33,7 +33,30 @@
 // @lc code=start
 class Solution {
     public int[][] merge(int[][] intervals) {
+        if (intervals.length == 0) {
+            return intervals;
+        }
+        Arrays.sort(intervals, new Comparator<int[]>() {
+            public int compare(int[] a, int[] b) {
+                if (a[0] == b[0]) {
+                    return b[1] - a[1];
+                } else {
+                    return a[0] - b[0];
+                }
+            }
+        });
         
+        LinkedList<int[]> res = new LinkedList<>();
+        for(int i = 0;i < intervals.length;i++) {
+            int[] now = intervals[i];
+            if (res.size() == 0 || res.getLast()[1] < now[0]) {
+                res.add(now);
+            } else {
+                int[] last = res.pollLast();
+                res.add(new int[]{last[0], Math.max(last[1], now[1])});
+            }
+        }
+        return res.toArray(new int[res.size()][2]);
     }
 }
 // @lc code=end
