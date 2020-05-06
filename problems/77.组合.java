@@ -34,18 +34,18 @@
 class Solution {
     public List<List<Integer>> combine(int n, int k) {
         List<List<Integer>> res = new ArrayList<>();
-        dfs(n, k, 1, new ArrayList<>(), res);
+        backtrace(n, k, 1, new ArrayList<>(), res);
         return res;
     }
 
-    private void dfs(int n, int k, int s, List<Integer> nums, List<List<Integer>> res) {
+    private void backtrace(int n, int k, int s, List<Integer> nums, List<List<Integer>> res) {
         if (k == 0) {
             res.add(new ArrayList<>(nums));
             return;
         }
         for(int i = s;i <= n;i++) {
             nums.add(i);
-            dfs(n, k - 1, i + 1, nums, res);
+            backtrace(n, k - 1, i + 1, nums, res);
             nums.remove(nums.size() - 1);
         }
     }

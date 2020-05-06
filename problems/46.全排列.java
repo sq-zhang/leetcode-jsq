@@ -34,11 +34,11 @@
 class Solution {
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
-        dfs(nums, new boolean[nums.length], new ArrayList<>(), res);
+        backtrace(nums, new boolean[nums.length], new ArrayList<>(), res);
         return res;
     }
 
-    private void dfs(int[] nums, boolean[] visited, List<Integer> numList, List<List<Integer>> res) {
+    private void backtrace(int[] nums, boolean[] visited, List<Integer> numList, List<List<Integer>> res) {
         if (numList.size() == nums.length) {
             res.add(new ArrayList<>(numList));
             return;
@@ -49,7 +49,7 @@ class Solution {
             }
             numList.add(nums[i]);
             visited[i] = true;
-            dfs(nums, visited, numList, res);
+            backtrace(nums, visited, numList, res);
             numList.remove(numList.size() - 1);
             visited[i] = false;
         }
