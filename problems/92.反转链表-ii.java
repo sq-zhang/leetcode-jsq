@@ -36,33 +36,20 @@
  */
 class Solution {
     public ListNode reverseBetween(ListNode head, int m, int n) {
-        ListNode prev = head, cur = head;
-        while(m > 1) {
-            prev = cur;
-            cur = cur.next;
-            m--;
-            n--;
+        ListNode root = new ListNode(-1);
+        root.next = head;
+        ListNode pre = root;
+        for(int i = 1;i < m;i++) {
+            pre = pre.next;
         }
-        ListNode con = prev, tail = cur;
-
-        ListNode third = null;
-        while (n > 0) {
-            third = cur.next;
-            cur.next = prev;
-            prev = cur;
-            cur = third;
-            n--;
+        ListNode cur = pre.next, next;
+        for(int i = m;i < n;i++) {
+            next = cur.next;
+            cur.next = next.next;
+            next.next = pre.next;
+            pre.next = next;
         }
-
-        if (con != null) {
-            con.next = prev;
-        } else {
-            head = prev;
-        }
-
-        tail.next = cur;
-        return head;
-
+        return root.next;
     }
 }
 // @lc code=end
