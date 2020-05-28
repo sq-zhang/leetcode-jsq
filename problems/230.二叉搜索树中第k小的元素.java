@@ -57,8 +57,26 @@
  */
 class Solution {
     public int kthSmallest(TreeNode root, int k) {
-
+        int count = 0;
+        if(root == null)
+            return -1;
+        TreeNode p = root;
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        while(p != null || !stack.isEmpty()){
+            while(p != null){
+                stack.push(p);
+                p = p.left;
+            }
+            TreeNode node = stack.pop();
+            count++;
+            if(count == k){
+                return node.val;
+            }
+            p = node.right;
+        }
+        return -1;
     }
+
 }
 // @lc code=end
 
