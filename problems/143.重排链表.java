@@ -39,27 +39,32 @@
  */
 class Solution {
     public void reorderList(ListNode head) {
-        if(head == null) {
+        if (head == null) {
             return;
         }
+        ListNode slow = head, fast = head;
+        while(fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        ListNode next = slow.next;
+        slow.next = null;
 
-        List<ListNode> list = new ArrayList<>();
-        while(head != null) {
-            list.add(head);
-            head = head.next;
+        ListNode tail = null;
+        while(next != null) {
+            ListNode tmp = next.next;
+            next.next = tail;
+            tail = next;
+            next = tmp;
         }
 
-        int i = 0, j = list.size() - 1;
-        while(i < j) {
-            list.get(i).next = list.get(j);
-            i++;
-            if (i == j) {
-                break;
-            }
-            list.get(j).next = list.get(i);
-            j--;
+        while(tail != null) {
+            ListNode tmp = tail.next;
+            tail.next = head.next;
+            head.next = tail;
+            head = tail.next;
+            tail = tmp;
         }
-        list.get(i).next = null;
     }
 }
 // @lc code=end

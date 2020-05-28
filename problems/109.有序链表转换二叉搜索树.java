@@ -51,8 +51,33 @@
  * }
  */
 class Solution {
-    public TreeNode sortedListToBST(ListNode head) {
+    private ListNode head;
 
+    public TreeNode sortedListToBST(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        this.head = head;
+        ListNode cur = head;
+        int n = 0;
+        while(cur != null) {
+            cur = cur.next;
+            n++;
+        }
+        return convertListToBST(0, n - 1);
+    }
+
+    private TreeNode convertListToBST(int l, int r) {
+        if (l > r) {
+            return null;
+        }
+        int mid = (l + r) / 2;
+        TreeNode left = convertListToBST(l, mid - 1);
+        TreeNode node = new TreeNode(head.val);
+        node.left = left;
+        head = head.next;
+        node.right = convertListToBST(mid + 1, r);
+        return node;
     }
 }
 // @lc code=end

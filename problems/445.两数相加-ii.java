@@ -43,33 +43,40 @@
  */
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        List<Integer> nums1 = getNums(l1);
-        List<Integer> nums2 = getNums(l2);
-        ListNode res = null;
-        int i = nums1.size() - 1, j = nums2.size() - 1, n = 0;
-        while(i >= 0 || j >= 0 || n > 0) {
-            if (i >= 0) {
-                n += nums1.get(i--);
-            }
-            if (j >= 0) {
-                n += nums2.get(j--);
-            }
-            ListNode cur = new ListNode(n % 10);
-            cur.next = res;
-            res = cur;
-            n /= 10;
+        if (l1 == null) return l2;
+        if (l2 == null) return l1;
+        ListNode node1 = reverse(l1);
+        ListNode node2 = reverse(l2);
+        int carry = 0;
+        ListNode newHead = new ListNode(0);
+        ListNode curr = newHead;
+        while (node1 != null || node2 != null){
+            int x = node1 != null ? node1.val : 0;
+            int y = node2 != null ? node2.val : 0;
+            int num = (x + y + carry) % 10;
+            ListNode node = new ListNode(num);
+            curr.next = node;
+            curr = node;
+            carry = (x + y + carry) / 10;
+            if (node1 != null) node1 = node1.next;
+            if (node2 != null) node2 = node2.next;
         }
-
+        // 最后加上 carry
+        if (carry > 0) curr.next = new ListNode(carry);
+        ListNode res = reverse(newHead.next);
         return res;
     }
-
-    List<Integer> getNums(ListNode l) {
-        List<Integer> nums = new ArrayList<>();
-        while(l != null) {
-            nums.add(l.val);
-            l = l.next;
+    // 链表反转
+    public ListNode reverse(ListNode head){
+        if (head == null) return null;
+        ListNode pre = null;
+        while (head != null){
+            ListNode next = head.next;
+            head.next = pre;
+            pre = head;
+            head = next;
         }
-        return nums;
+        return pre;
     }
 }
 // @lc code=end
