@@ -62,7 +62,6 @@ class Solution {
         root.right = left;
         return root;
     }
-
 }
 // @lc code=end
 

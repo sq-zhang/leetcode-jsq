@@ -42,13 +42,22 @@
  */
 class Solution {
     public List<Integer> postorderTraversal(TreeNode root) {
-        List<Integer> res = new ArrayList<>();
-        if (root == null) {
-            return res;
+        LinkedList<Integer> res = new LinkedList<>();
+        LinkedList<TreeNode> stack = new LinkedList<>();
+        if (root != null) {
+            stack.add(root);
         }
-        res.addAll(postorderTraversal(root.left));
-        res.addAll(postorderTraversal(root.right));
-        res.add(root.val);
+
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pollLast();
+            res.addFirst(node.val);
+            if (node.left != null) {
+                stack.add(node.left);
+            }
+            if (node.right != null) {
+                stack.add(node.right);
+            }
+        }
         return res;
     }
 }

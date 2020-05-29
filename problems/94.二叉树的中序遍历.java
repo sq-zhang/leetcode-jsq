@@ -42,19 +42,6 @@
  */
 class Solution {
     public List<Integer> inorderTraversal(TreeNode root) {
-        // 1. 递归解法
-        // List<Integer> res = new ArrayList<>();
-        // if (root == null) {
-        //     return res;
-        // }
-
-        // res.addAll(inorderTraversal(root.left));
-        // res.add(root.val);
-        // res.addAll(inorderTraversal(root.right));
-        
-        // return res;
-
-        // 2. 迭代解法
         List<Integer> res = new ArrayList<>();
         Stack<TreeNode> stack = new Stack<>();
         TreeNode curr = root;
