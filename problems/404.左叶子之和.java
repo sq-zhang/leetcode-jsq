@@ -46,24 +46,20 @@ class Solution {
         if (root == null) {
             return res;
         }
-        List<TreeNode> queue = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
         queue.add(root);
         while(!queue.isEmpty()) {
-            List<TreeNode> tmp = new ArrayList<>();
-            for(int i = 0;i < queue.size();i++) {
-                TreeNode node = queue.get(i);
-                if (node.left != null) {
-                    if (node.left.left == null && node.left.right == null) {
-                        res += node.left.val;
-                    } else {
-                        tmp.add(node.left);
-                    }
-                }
-                if (node.right != null) {
-                    tmp.add(node.right);
+            TreeNode node = queue.poll();
+            if (node.left != null) {
+                if (node.left.left == null && node.left.right == null) {
+                    res += node.left.val;
+                } else {
+                    queue.add(node.left);
                 }
             }
-            queue = tmp;
+            if (node.right != null) {
+                queue.add(node.right);
+            }
         }
 
         return res;

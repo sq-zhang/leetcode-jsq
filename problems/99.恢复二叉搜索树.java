@@ -80,8 +80,32 @@
  * }
  */
 class Solution {
+    TreeNode x = null, y = null, pre = null;
+
+    public void swap(TreeNode a, TreeNode b) {
+        int tmp = a.val;
+        a.val = b.val;
+        b.val = tmp;
+    }
+
+    public void inOrder(TreeNode root) {
+        if (root == null) return;
+        inOrder(root.left);
+        if (pre != null && root.val < pre.val) {
+            y = root;
+            if (x == null) {
+                x = pre;
+            } else {
+                return;
+            }
+        }
+        pre = root;
+        inOrder(root.right);
+    }
+
     public void recoverTree(TreeNode root) {
-        
+        inOrder(root);
+        swap(x, y);
     }
 }
 // @lc code=end
